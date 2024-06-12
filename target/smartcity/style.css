@@ -1,0 +1,128 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.simulation-container {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.device {
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 20px;
+    width: 200px;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.smartphone {
+    position: relative;
+    border: 16px solid #000;
+    border-radius: 36px;
+    padding: 16px;
+    width: 200px;
+    height: 400px;
+    background-color: #fff;
+}
+
+.smartphone::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 5px;
+    background-color: #000;
+    border-radius: 10px;
+}
+
+.traffic-light {
+    width: 60px;
+    height: 150px;
+    background-color: #333;
+    border-radius: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.traffic-light div {
+    width: 40px;
+    height: 40px;
+    background-color: #bbb;
+    border-radius: 50%;
+}
+
+.light-red.active {
+    background-color: red;
+}
+
+.light-yellow.active {
+    background-color: yellow;
+}
+
+.light-green.active {
+    background-color: green;
+}
+
+.console {
+    border: 2px solid #000;
+    border-radius: 10px;
+    padding: 10px;
+    height: 200px;
+    overflow-y: auto;
+    background-color: #000;
+    color: #00ff00;
+    font-family: monospace;
+}
+
+.console-output {
+    white-space: pre-wrap;
+}
+
+.car-dashboard {
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to bottom, #333, #000);
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.car-dashboard .dashboard-title {
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.car-dashboard .notification {
+    background-color: #555;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    text-align: center;
+    font-size: 0.9em;
+}
+
+.car-dashboard .notification.alert-danger {
+    background-color: #ff4d4d;
+}
+
+.car-dashboard .notification.alert-success {
+    background-color: #4caf50;
+}
