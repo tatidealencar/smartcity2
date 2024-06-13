@@ -26,12 +26,12 @@ public class Router {
 		return "";
 	}
 
-	public Data receivePacket(String origin, ISensing owner, int id) {
-		System.out.println("Getting packet from " + origin);
+	public Data receivePacket(String origin, ISensing owner, int id, StringBuilder consoleOutput) {
+		consoleOutput.append("Getting packet from ").append(origin);
 		// Simulando o roteamento
 		if (origin.equals("Gateway")) {
 			Gateway gateway = new Gateway("192.168.1.1");
-			return gateway.fetchDataFromCloud(owner, id);
+			return gateway.fetchDataFromCloud(owner, id, consoleOutput);
 		}
 		return null;
 	}

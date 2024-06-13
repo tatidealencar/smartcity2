@@ -38,8 +38,11 @@ public class AnalyticsEngine {
 				} else {
 					double distanceVehicleToTrafficLight = calculateDistance(vehicleLat, vehicleLon, trafficLightLat,
 							trafficLightLon);
-					double distanceSmartphoneToTrafficLight = calculateDistance(smartphoneLat, smartphoneLon,
-							trafficLightLat, trafficLightLon);
+					/*
+					 * double distanceSmartphoneToTrafficLight = calculateDistance(smartphoneLat,
+					 * smartphoneLon,
+					 * trafficLightLat, trafficLightLon);
+					 */
 
 					if (distanceVehicleToTrafficLight > 100) {
 						result.setCollisionDetected(false);

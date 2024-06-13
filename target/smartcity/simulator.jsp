@@ -73,6 +73,7 @@
         <div class="notifications mt-3">
             <div id="notification-danger" class="alert alert-danger d-none">Atenção! Risco de colisão detectado!</div>
             <div id="notification-safe" class="alert alert-success d-none">Nenhum risco de colisão.</div>
+            <div id="notification-none" class="alert alert-info d-none">Nenhuma notificação.</div>
         </div>
 
         <div class="simulation-container">
@@ -108,7 +109,6 @@
             }
 
             const url = `DataServlet?${params.toString()}`;
-            console.log(url);
 
             fetch(url, {
                     method: 'GET'
@@ -130,28 +130,99 @@
                         .trafficLightStatus === 'GREEN' ? 'green' : 'grey';
 
                     // Update notifications
-                    if (data.collisionRisk) {
-                        document.getElementById('notification-danger').classList.remove('d-none');
-                        document.getElementById('notification-safe').classList.add('d-none');
-                        document.getElementById('smartphone-notification').classList.replace('alert-info',
-                            'alert-danger');
-                        document.getElementById('smartphone-notification').textContent =
-                            'Atenção! Risco de colisão detectado!';
-                        document.getElementById('vehicle-notification').classList.replace('alert-info',
-                            'alert-danger');
-                        document.getElementById('vehicle-notification').textContent =
-                            'Atenção! Risco de colisão detectado!';
+
+                    const smartphoneNotification = document.getElementById(
+                        'smartphone-notification');
+
+                    const vehicleNotification = document.getElementById('vehicle-notification');
+
+                    if (data.userNotification) {
+                        if (Object.keys(data.userNotification).length > 0) {
+                            if (data.collisionRisk) {
+                                const notification = JSON.parse(data.userNotification);
+
+                                document.getElementById('notification-danger').classList.remove('d-none');
+                                document.getElementById('notification-safe').classList.add('d-none');
+                                document.getElementById('notification-none').classList.add('d-none');
+
+                                if (!document.getElementById('notification-none').classList.contains(
+                                        'd-none')) {
+                                    document.getElementById('notification-none').classList.add(
+                                        'd-none');
+                                }
+
+                                if (!document.getElementById('notification-safe').classList.contains(
+                                        'd-none')) {
+                                    document.getElementById('notification-safe').classList.add(
+                                        'd-none');
+                                }
+
+                                if (document.getElementById('notification-danger').classList.contains(
+                                        'd-none')) {
+                                    document.getElementById('notification-danger').classList.remove(
+                                        'd-none');
+                                }
+
+
+                                if (smartphoneNotification.classList.contains('alert-info')) {
+                                    smartphoneNotification.classList.remove('alert-info');
+                                }
+                                if (smartphoneNotification.classList.contains('alert-success')) {
+                                    smartphoneNotification.classList.remove('alert-success');
+                                }
+                                smartphoneNotification.classList.add('alert-danger');
+
+                                smartphoneNotification.textContent = notification.message;
+
+                                if (vehicleNotification.classList.contains('alert-info')) {
+                                    vehicleNotification.classList.remove('alert-info');
+                                }
+                                if (vehicleNotification.classList.contains('alert-success')) {
+                                    vehicleNotification.classList.remove('alert-success');
+                                }
+                                vehicleNotification.classList.add('alert-danger');
+
+                                vehicleNotification.textContent = notification.message;
+                            }
+                        }
                     } else {
-                        document.getElementById('notification-danger').classList.add('d-none');
-                        document.getElementById('notification-safe').classList.remove('d-none');
-                        document.getElementById('smartphone-notification').classList.replace('alert-danger',
-                            'alert-success');
-                        document.getElementById('smartphone-notification').textContent =
-                            'Nenhum risco de colisão.';
-                        document.getElementById('vehicle-notification').classList.replace('alert-danger',
-                            'alert-success');
-                        document.getElementById('vehicle-notification').textContent =
-                            'Nenhum risco de colisão.';
+                        if (!document.getElementById('notification-none').classList.contains(
+                                'd-none')) {
+                            document.getElementById('notification-none').classList.add(
+                                'd-none');
+                        }
+
+                        if (!document.getElementById('notification-danger').classList.contains(
+                                'd-none')) {
+                            document.getElementById('notification-danger').classList.add(
+                                'd-none');
+                        }
+
+                        if (document.getElementById('notification-safe').classList.contains(
+                                'd-none')) {
+                            document.getElementById('notification-safe').classList.remove(
+                                'd-none');
+                        }
+
+                        if (smartphoneNotification.classList.contains('alert-danger')) {
+                            smartphoneNotification.classList.remove('alert-danger');
+                        }
+                        if (smartphoneNotification.classList.contains('alert-success')) {
+                            smartphoneNotification.classList.remove('alert-success');
+                        }
+                        smartphoneNotification.classList.add('alert-info');
+
+                        smartphoneNotification.textContent = 'Nenhuma notificação.';
+
+                        if (vehicleNotification.classList.contains('alert-danger')) {
+                            vehicleNotification.classList.remove('alert-danger');
+                        }
+                        if (vehicleNotification.classList.contains('alert-success')) {
+                            vehicleNotification.classList.remove('alert-success');
+                        }
+                        vehicleNotification.classList.add('alert-info');
+
+                        vehicleNotification.textContent = 'Nenhuma notificação.';
                     }
 
                     // Update console output

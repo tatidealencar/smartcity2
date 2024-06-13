@@ -3,6 +3,7 @@ package com.smarcity.ApplicationLayer;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
 import com.smarcity.BusinessLayer.AnalysisResult;
 import com.smarcity.BusinessLayer.AnalyticsEngine;
 import com.smarcity.Enum.TrafficLightStatus;
@@ -24,9 +25,18 @@ public class TrafficMonitor implements Subject {
 	private AnalysisResult currentResult;
 	private AnalysisResult previousResult;
 
-	public TrafficMonitor() {
+	private static TrafficMonitor instance;
+
+	private TrafficMonitor() {
 		this.currentResult = new AnalysisResult(false, "No collision detected");
 		this.previousResult = new AnalysisResult(false, "No collision detected");
+	}
+
+	public static TrafficMonitor getInstance() {
+		if (instance == null) {
+			instance = new TrafficMonitor();
+		}
+		return instance;
 	}
 
 	public void analyzeTrafficData(List<Data> dataList) {
@@ -70,9 +80,9 @@ public class TrafficMonitor implements Subject {
 		this.observers.remove(o);
 	}
 
-	public void notifyObservers() {
+	public void notifyObservers(JsonObject jsonResponse) {
 		for (Observer o : this.observers) {
-			o.notificar(this);
+			o.notificar(this, jsonResponse);
 		}
 	}
 
@@ -81,7 +91,7 @@ public class TrafficMonitor implements Subject {
 	}
 
 	public void monitorTraffic(ISensor locationSensorVehicle, SpeedData speedSensorDataVehicle,
-                               TrafficLightData sensorDataTrafficLight, List<IMobile> mobileList, List<Data> listData) {
+                               TrafficLightData sensorDataTrafficLight, List<IMobile> mobileList, List<Data> listData, JsonObject jsonResponse) {
 
         List<Data> activated = new ArrayList<>();
         for (IMobile m : mobileList) {
@@ -104,7 +114,9 @@ public class TrafficMonitor implements Subject {
         analyzeTrafficData(activated);
 
         if (this.currentResult.isCollisionDetected() != this.previousResult.isCollisionDetected()) {
-            notifyObservers();
+			if (this.currentResult.isCollisionDetected() == true) {
+				notifyObservers(jsonResponse);
+			}
         }
     }
 }

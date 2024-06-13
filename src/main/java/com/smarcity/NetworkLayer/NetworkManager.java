@@ -16,26 +16,30 @@ public class NetworkManager implements INetworkManager {
 	private List<ISensor> sensors;
 	private List<IActuator> actuatores;
 	private List<IMobile> mobiles;
+	StringBuilder consoleOutput;
 
-	private NetworkManager() {}
+	private NetworkManager(StringBuilder consoleOutput) {
+		this.consoleOutput = consoleOutput;
 
-	public static INetworkManager getInstance() {
+	}
+
+	public static INetworkManager getInstance(StringBuilder consoleOutput) {
 		if (instance == null) {
-			instance = new NetworkManager();
+			instance = new NetworkManager(consoleOutput);
 		}
 		return instance;
 	}
 
-	public void connect() {
-		System.out.println("Connecting using " + network.getProtocol() + " with bandwidth " + network.getBandwidth());
+	public void connect( ) {
+		consoleOutput.append("Connecting using ").append(network.getProtocol()).append(" with bandwidth "). append(network.getBandwidth());
 	}
 
 	public void disconnect() {
-		System.out.println("Disconnecting...");
+		consoleOutput.append("Disconnecting...");
 	}
 
 	public String sendData(Data data, Router router) {
-		System.out.println("Sending data: " + data);
+		consoleOutput.append("Sending data: ").append(data);
 		try {
 			return router.routePacket(data, "Gateway");
 		} catch (Exception e) {
@@ -46,7 +50,7 @@ public class NetworkManager implements INetworkManager {
 
 	public Data receiveData(Router router, ISensing owner, int id) {
 		System.out.println("Getting data");
-		return router.receivePacket("Gateway", owner, id);
+		return router.receivePacket("Gateway", owner, id, consoleOutput);
 	}
 
 	public NetworkInterface getNetwork() {

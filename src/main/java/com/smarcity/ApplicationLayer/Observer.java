@@ -1,6 +1,8 @@
 package com.smarcity.ApplicationLayer;
 
+import com.google.gson.JsonObject;
+
 public interface Observer {
 
-	public abstract void notificar(TrafficMonitor trafficMonitor);
+	public void notificar(TrafficMonitor trafficMonitor, JsonObject jsonResponse);
 }

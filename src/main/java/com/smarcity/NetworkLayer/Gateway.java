@@ -28,10 +28,10 @@ public class Gateway {
         return this.encryptData(data);
     }
 
-    public Data fetchDataFromCloud(ISensing owner, int id) {
+    public Data fetchDataFromCloud(ISensing owner, int id, StringBuilder consoleOutput) {
         // TODO: trazer dados do banco de dados
         LocationData data = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", owner, id);
-        System.out.println(data);
+        consoleOutput.append(data);
         return data;
     }
 

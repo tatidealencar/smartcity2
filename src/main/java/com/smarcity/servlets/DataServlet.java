@@ -55,9 +55,8 @@ public class DataServlet extends HttpServlet {
             trafficLightStatus = "RED";
         }
 
-        // Simulation data processing logic
         NetworkInterface5G networkInterface5G = new NetworkInterface5G("5G", 500, "Tim", 70);
-        NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance();
+        NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance(consoleOutput);
         networkManager.setNetworkInterface(networkInterface5G);
         Router router = new Router(1024);
 
@@ -107,6 +106,7 @@ public class DataServlet extends HttpServlet {
         TrafficLightData sensorDataTrafficLight = (TrafficLightData) locationSensorActuator.readData();
         listData.add(sensorDataTrafficLight);
 
+        // Início da operação
         networkManager.connect();
 
         String apiEndpoint = "http://localhost:8080/api/data";
@@ -118,13 +118,11 @@ public class DataServlet extends HttpServlet {
             consoleOutput.append("Data Sent to Cloud: ").append(sentData).append("\n");
         }
 
-        TrafficMonitor trafficMonitor = new TrafficMonitor();
+        TrafficMonitor trafficMonitor = TrafficMonitor.getInstance();
         UserNotifier userNotifier = new UserNotifier(1, NotificationType.HAPTIC);
         trafficMonitor.registerObserver(userNotifier);
         trafficMonitor.monitorTraffic(locationSensorVehicle, speedSensorDataVehicle, sensorDataTrafficLight, mobileList,
-                listData);
-
-        networkManager.disconnect();
+                listData, jsonResponse);
 
         // Build JSON response
         jsonResponse.addProperty("trafficLightStatus", trafficLightStatus.toUpperCase());
@@ -135,6 +133,8 @@ public class DataServlet extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             out.print(jsonResponse.toString());
         }
+
+        //networkManager.disconnect();
     }
 
     @Override
