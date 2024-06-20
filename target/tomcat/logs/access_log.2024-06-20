@@ -1,0 +1,4 @@
+0:0:0:0:0:0:0:1 - - [20/Jun/2024:19:05:34 -0300] "GET /smartcity/simulator.jsp HTTP/1.1" 200 11723 http-bio-9090-exec-1 444
+0:0:0:0:0:0:0:1 - - [20/Jun/2024:19:05:36 -0300] "GET /smartcity/DataServlet?trafficLightLat=&trafficLightLng=&trafficLightStatus=RED&pedestrianLat=&pedestrianLng=&carLat=&carLng=&carSpeed= HTTP/1.1" 200 2005 http-bio-9090-exec-3 50
+0:0:0:0:0:0:0:1 - - [20/Jun/2024:19:07:07 -0300] "GET /smartcity/simulator.jsp HTTP/1.1" 200 11747 http-bio-9090-exec-5 66
+0:0:0:0:0:0:0:1 - - [20/Jun/2024:19:07:08 -0300] "GET /smartcity/DataServlet?trafficLightLat=&trafficLightLng=&trafficLightStatus=RED&pedestrianLat=&pedestrianLng=&carLat=&carLng=&carSpeed= HTTP/1.1" 200 1121 http-bio-9090-exec-7 8

@@ -47,6 +47,10 @@ public class Data implements Serializable {
         return this.sensorId;
     }
 
+    public void setSensorId(int sensorId) {
+        this.sensorId = sensorId;
+    }
+
     // Método estático para desserializar um array de bytes em um objeto Data
     public Data fromByteArray(byte[] bytes) throws IOException, ClassNotFoundException {
         try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);

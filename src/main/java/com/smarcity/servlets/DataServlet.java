@@ -42,18 +42,27 @@ public class DataServlet extends HttpServlet {
         StringBuilder consoleOutput = new StringBuilder();
         JsonObject jsonResponse = new JsonObject();
 
-        String trafficLightLat = request.getParameter("trafficLightLat");
+        /*String trafficLightLat = request.getParameter("trafficLightLat");
         String trafficLightLng = request.getParameter("trafficLightLng");
         String trafficLightStatus = request.getParameter("trafficLightStatus");
         String pedestrianLat = request.getParameter("pedestrianLat");
         String pedestrianLng = request.getParameter("pedestrianLng");
         String carLat = request.getParameter("carLat");
         String carLng = request.getParameter("carLng");
-        String carSpeed = request.getParameter("carSpeed");
+        String carSpeed = request.getParameter("carSpeed");*/
 
-        if (trafficLightStatus == null) {
+        String trafficLightLat = "-23.5610";
+        String trafficLightLng = "-46.6562 ";
+        String trafficLightStatus = "RED";
+        String pedestrianLat = "-23.5610";
+        String pedestrianLng = "-46.6562";
+        String carLat = "-23.5610";
+        String carLng = "-46.6560";
+        String carSpeed = "100";
+
+        /*if (trafficLightStatus == null) {
             trafficLightStatus = "RED";
-        }
+        }*/
 
         NetworkInterface5G networkInterface5G = new NetworkInterface5G("5G", 500, "Tim", 70);
         NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance(consoleOutput);

@@ -120,7 +120,8 @@
                     return response.json();
                 })
                 .then(data => {
-                    console.log(data);
+
+                console.log(data);
                     // Update traffic light status
                     document.getElementById('traffic-light-red').style.backgroundColor = data
                         .trafficLightStatus === 'RED' ? 'red' : 'grey';
@@ -131,59 +132,37 @@
 
                     // Update notifications
 
-                    const smartphoneNotification = document.getElementById(
-                        'smartphone-notification');
+                    if (data.collisionRisk) {
 
-                    const vehicleNotification = document.getElementById('vehicle-notification');
+                        if (!document.getElementById('notification-none').classList.contains(
+                                'd-none')) {
+                            document.getElementById('notification-none').classList.add(
+                                'd-none');
+                        }
 
-                    if (data.userNotification) {
-                        if (Object.keys(data.userNotification).length > 0) {
-                            if (data.collisionRisk) {
+                        if (!document.getElementById('notification-safe').classList.contains(
+                                'd-none')) {
+                            document.getElementById('notification-safe').classList.add(
+                                'd-none');
+                        }
+
+                        if (document.getElementById('notification-danger').classList.contains(
+                                'd-none')) {
+                            document.getElementById('notification-danger').classList.remove(
+                                'd-none');
+                        }
+
+                        if (data.userNotification) {
+                            if (Object.keys(data.userNotification).length > 0) {
                                 const notification = JSON.parse(data.userNotification);
 
-                                document.getElementById('notification-danger').classList.remove('d-none');
-                                document.getElementById('notification-safe').classList.add('d-none');
-                                document.getElementById('notification-none').classList.add('d-none');
+                                collisionRiskNotification();
 
-                                if (!document.getElementById('notification-none').classList.contains(
-                                        'd-none')) {
-                                    document.getElementById('notification-none').classList.add(
-                                        'd-none');
-                                }
-
-                                if (!document.getElementById('notification-safe').classList.contains(
-                                        'd-none')) {
-                                    document.getElementById('notification-safe').classList.add(
-                                        'd-none');
-                                }
-
-                                if (document.getElementById('notification-danger').classList.contains(
-                                        'd-none')) {
-                                    document.getElementById('notification-danger').classList.remove(
-                                        'd-none');
-                                }
-
-
-                                if (smartphoneNotification.classList.contains('alert-info')) {
-                                    smartphoneNotification.classList.remove('alert-info');
-                                }
-                                if (smartphoneNotification.classList.contains('alert-success')) {
-                                    smartphoneNotification.classList.remove('alert-success');
-                                }
-                                smartphoneNotification.classList.add('alert-danger');
-
-                                smartphoneNotification.textContent = notification.message;
-
-                                if (vehicleNotification.classList.contains('alert-info')) {
-                                    vehicleNotification.classList.remove('alert-info');
-                                }
-                                if (vehicleNotification.classList.contains('alert-success')) {
-                                    vehicleNotification.classList.remove('alert-success');
-                                }
-                                vehicleNotification.classList.add('alert-danger');
-
-                                vehicleNotification.textContent = notification.message;
+                            } else {
+                                noColisionRiskNotification();
                             }
+                        } else {
+                            noColisionRiskNotification();
                         }
                     } else {
                         if (!document.getElementById('notification-none').classList.contains(
@@ -204,25 +183,7 @@
                                 'd-none');
                         }
 
-                        if (smartphoneNotification.classList.contains('alert-danger')) {
-                            smartphoneNotification.classList.remove('alert-danger');
-                        }
-                        if (smartphoneNotification.classList.contains('alert-success')) {
-                            smartphoneNotification.classList.remove('alert-success');
-                        }
-                        smartphoneNotification.classList.add('alert-info');
-
-                        smartphoneNotification.textContent = 'Nenhuma notificação.';
-
-                        if (vehicleNotification.classList.contains('alert-danger')) {
-                            vehicleNotification.classList.remove('alert-danger');
-                        }
-                        if (vehicleNotification.classList.contains('alert-success')) {
-                            vehicleNotification.classList.remove('alert-success');
-                        }
-                        vehicleNotification.classList.add('alert-info');
-
-                        vehicleNotification.textContent = 'Nenhuma notificação.';
+                        noColisionRiskNotification();
                     }
 
                     // Update console output
@@ -230,6 +191,60 @@
 
                 });
         });
+
+        function collisionRiskNotification() {
+
+            const smartphoneNotification = document.getElementById(
+                'smartphone-notification');
+
+            const vehicleNotification = document.getElementById('vehicle-notification');
+            if (smartphoneNotification.classList.contains('alert-info')) {
+                smartphoneNotification.classList.remove('alert-info');
+            }
+            if (smartphoneNotification.classList.contains('alert-success')) {
+                smartphoneNotification.classList.remove('alert-success');
+            }
+            smartphoneNotification.classList.add('alert-danger');
+
+            smartphoneNotification.textContent = notification.message;
+
+            if (vehicleNotification.classList.contains('alert-info')) {
+                vehicleNotification.classList.remove('alert-info');
+            }
+            if (vehicleNotification.classList.contains('alert-success')) {
+                vehicleNotification.classList.remove('alert-success');
+            }
+            vehicleNotification.classList.add('alert-danger');
+
+            vehicleNotification.textContent = notification.message;
+        }
+
+        function noColisionRiskNotification() {
+            const smartphoneNotification = document.getElementById(
+                'smartphone-notification');
+
+            const vehicleNotification = document.getElementById('vehicle-notification');
+
+            if (smartphoneNotification.classList.contains('alert-danger')) {
+                smartphoneNotification.classList.remove('alert-danger');
+            }
+            if (smartphoneNotification.classList.contains('alert-success')) {
+                smartphoneNotification.classList.remove('alert-success');
+            }
+            smartphoneNotification.classList.add('alert-info');
+
+            smartphoneNotification.textContent = 'Nenhuma notificação.';
+
+            if (vehicleNotification.classList.contains('alert-danger')) {
+                vehicleNotification.classList.remove('alert-danger');
+            }
+            if (vehicleNotification.classList.contains('alert-success')) {
+                vehicleNotification.classList.remove('alert-success');
+            }
+            vehicleNotification.classList.add('alert-info');
+
+            vehicleNotification.textContent = 'Nenhuma notificação.';
+        }
     </script>
 </body>
 

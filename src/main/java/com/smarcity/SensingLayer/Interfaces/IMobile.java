@@ -7,7 +7,7 @@ public abstract class IMobile implements ISensing {
 	
 	private MobileState state;
 
-	private int id;
+	private int sensorId;
 
 	public abstract LocationData getCurrentLocation();
 
@@ -20,10 +20,10 @@ public abstract class IMobile implements ISensing {
 	}
 
 	public int getSensorId() {
-		return this.id;
+		return this.sensorId;
 	}
 
-	public void setSensorId(int id) {
-		this.id = id;
+	public void setSensorId(int sensorId) {
+		this.sensorId = sensorId;
 	}
 }

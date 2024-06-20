@@ -120,6 +120,8 @@
                     return response.json();
                 })
                 .then(data => {
+
+                console.log(data);
                     // Update traffic light status
                     document.getElementById('traffic-light-red').style.backgroundColor = data
                         .trafficLightStatus === 'RED' ? 'red' : 'grey';
@@ -154,7 +156,7 @@
                             if (Object.keys(data.userNotification).length > 0) {
                                 const notification = JSON.parse(data.userNotification);
 
-                                collisionRiskNotification();
+                                collisionRiskNotification(notification);
 
                             } else {
                                 noColisionRiskNotification();
@@ -190,7 +192,7 @@
                 });
         });
 
-        function collisionRiskNotification() {
+        function collisionRiskNotification(notification) {
 
             const smartphoneNotification = document.getElementById(
                 'smartphone-notification');

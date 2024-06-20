@@ -1,10 +1,13 @@
 com\smarcity\NetworkLayer\NetworkManager.class
 com\smarcity\Enum\TrafficLightStatus.class
+com\smarcity\MiddlewareLayer\db\Database.class
+com\smarcity\MiddlewareLayer\db\LocationDataDB.class
 com\smarcity\MiddlewareLayer\SecurityManager.class
 com\smarcity\SensingLayer\Factory\FactoryMobile.class
 com\smarcity\ApplicationLayer\Interfaces\IDataBase.class
 com\smarcity\SensingLayer\Interfaces\ISensing.class
 com\smarcity\SensingLayer\Model\SpeedData.class
+com\smarcity\MiddlewareLayer\db\SpeedDataDB.class
 com\smarcity\SensingLayer\Factory\FactoryActuator.class
 com\smarcity\SensingLayer\State\MobileState.class
 com\smarcity\SensingLayer\Interfaces\ISensor.class
@@ -18,12 +21,12 @@ com\smarcity\NetworkLayer\NetworkInterface.class
 com\smarcity\SensingLayer\Interfaces\IMobile.class
 com\smarcity\SensingLayer\Model\LocationData.class
 com\smarcity\BusinessLayer\AnalysisResult.class
+com\smarcity\MiddlewareLayer\db\TrafficLightDataDB.class
 com\smarcity\NetworkLayer\Router.class
 com\smarcity\SensingLayer\Factory\LocationSensor.class
 com\smarcity\ApplicationLayer\Subject.class
 com\smarcity\BusinessLayer\AnalyticsEngine.class
 com\smarcity\SensingLayer\Interfaces\IActuator.class
-com\smarcity\MiddlewareLayer\Database.class
 com\smarcity\servlets\DataServlet.class
 com\smarcity\SensingLayer\Factory\SmartphoneMobile.class
 com\smarcity\SensingLayer\Factory\SpeedSensor.class

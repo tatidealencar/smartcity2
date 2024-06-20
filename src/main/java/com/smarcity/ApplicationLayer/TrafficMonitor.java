@@ -113,10 +113,10 @@ public class TrafficMonitor implements Subject {
 
         analyzeTrafficData(activated);
 
-        if (this.currentResult.isCollisionDetected() != this.previousResult.isCollisionDetected()) {
+        /*if (this.currentResult.isCollisionDetected() != this.previousResult.isCollisionDetected()) {*/
 			if (this.currentResult.isCollisionDetected() == true) {
 				notifyObservers(jsonResponse);
 			}
-        }
+        //}
     }
 }

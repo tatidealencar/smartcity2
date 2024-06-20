@@ -1,4 +1,4 @@
-package com.smarcity.MiddlewareLayer;
+package com.smarcity.MiddlewareLayer.db;
 
 import com.smarcity.ApplicationLayer.Interfaces.IDataBase;
 
@@ -30,6 +30,10 @@ public class Database implements IDataBase {
 			e.printStackTrace();
 			throw new RuntimeException("Erro ao conectar ao banco de dados", e);
 		}
+	}
+
+	public Connection getConnection() {
+		return connection;
 	}
 
 	public ResultSet executeQuery(String query) throws SQLException {

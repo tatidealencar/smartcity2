@@ -32,7 +32,6 @@ class LocationSensor extends ISensor {
 
 	@Override
 	public void sendData(NetworkManager networkInterface5G) {
-		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'sendData'");
 	}
 
