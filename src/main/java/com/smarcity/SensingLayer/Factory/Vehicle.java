@@ -12,15 +12,14 @@ public class Vehicle extends IMobile {
 
 	public Vehicle(int id) {
 		super.setState(DisconnectedState.getInstance());
-		super.setSensorId(id);
-		LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this, super.getSensorId());
+		super.setId(id);
+		LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this);
 		this.location = location;
 	}
 
 	public void updateLocation(LocationData location) {
 
-		LocationData viaLocation = new LocationData("37.774929", "-122.419416", "location", "2024-05-22T14:30:00Z",
-				this, super.getSensorId());
+		LocationData viaLocation = new LocationData("37.774929", "-122.419416", "location", "2024-05-22T14:30:00Z", this);
 
 		this.location = location;
 		if (location == viaLocation) { // mudar para se location do veículo está próxima da location da via
@@ -46,7 +45,7 @@ public class Vehicle extends IMobile {
 	}
 
 	public String toString() {
-		return "Vehicle | " + location.getSensorType() + ": " + location.getData1() + " - " + location.getData2()
+		return "Vehicle | " + location.getDataType() + ": " + location.getData1() + " - " + location.getData2()
 				+ " - " + location.getTimestamp();
 	}
 

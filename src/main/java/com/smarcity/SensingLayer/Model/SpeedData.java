@@ -1,23 +1,22 @@
 package com.smarcity.SensingLayer.Model;
+import com.smarcity.SensingLayer.Interfaces.ISensing;
 
 public class SpeedData extends Data {
     private static final long serialVersionUID = 1L; 
-    private String sensorType;
 
-    public SpeedData(String velocidade, String unidade, String sensorType, String timestamp, int id) {
-        super(velocidade, unidade, timestamp, id);
-        this.sensorType = sensorType;
+    public SpeedData(String velocidade, String unidade, String dataType, String timestamp, ISensing origin) {
+        super(velocidade, unidade, timestamp, dataType, origin);
     }
 
-   public String getSensorType() {
-        return sensorType;
+   public String getDataType() {
+        return super.getDataType();
     }
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType;
+    public void setDataType(String dataType) {
+        super.setDataType(dataType);
     }
 
     public String toString() {
-        return sensorType + ": " + super.getData1() + " - " + super.getData2() + " - " + super.getTimestamp();
+        return super.getDataType() + ": " + super.getData1() + " - " + super.getData2() + " - " + super.getTimestamp();
     }
 }

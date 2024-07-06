@@ -16,6 +16,7 @@ public class Database implements IDataBase {
 	private static final String USER = "root";
 	private static final String PASSWORD = "root";
 
+	// Return database instance (singleton)
 	public static Database getInstance() {
 		if (instance == null) {
 			instance = new Database();
@@ -28,7 +29,7 @@ public class Database implements IDataBase {
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Erro ao conectar ao banco de dados", e);
+			throw new RuntimeException("Error connecting to database.", e);
 		}
 	}
 

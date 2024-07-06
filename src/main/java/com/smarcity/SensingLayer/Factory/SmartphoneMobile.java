@@ -11,13 +11,13 @@ public class SmartphoneMobile extends IMobile {
 
 	public SmartphoneMobile(int id) {
 		super.setState(DisconnectedState.getInstance());
-		super.setSensorId(id);
-		LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this, super.getSensorId());
+		super.setId(id);
+		LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this);
 		this.location = location;
 	}
 
 	public void updateLocation() {
-		LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this, super.getSensorId());
+		LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this);
 		this.location = location;
 	}
 
@@ -37,6 +37,6 @@ public class SmartphoneMobile extends IMobile {
 	}
 
 	public String toString() {
-		return "Smartphone | " + this.location.getSensorType() + ": " + this.location.getData1() + " - " + this.location.getData2() + " - " +  this.location.getTimestamp();
+		return "Smartphone | " + this.location.getDataType() + ": " + this.location.getData1() + " - " + this.location.getData2() + " - " +  this.location.getTimestamp();
 	}
 }

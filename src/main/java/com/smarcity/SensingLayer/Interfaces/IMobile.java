@@ -6,8 +6,7 @@ import com.smarcity.SensingLayer.State.MobileState;
 public abstract class IMobile implements ISensing {
 	
 	private MobileState state;
-
-	private int sensorId;
+	private int id;
 
 	public abstract LocationData getCurrentLocation();
 
@@ -19,11 +18,11 @@ public abstract class IMobile implements ISensing {
 		return this.state;
 	}
 
-	public int getSensorId() {
-		return this.sensorId;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-	public void setSensorId(int sensorId) {
-		this.sensorId = sensorId;
+	public int getId(){
+		return id;
 	}
 }

@@ -9,12 +9,10 @@ import com.smarcity.SensingLayer.Model.SpeedData;
 class SpeedSensor extends ISensor {
 
 	private SpeedData speed;
-	private int id;
 
-	public void collectData(ISensing owner, int id, Data dataSpeed) {
+	public void collectData(Data dataSpeed) {
 		//SpeedData dataSpeed = new SpeedData("300", "Km/h", "speed", "2024-05-22T14:30:00Z", id);
 		this.speed = (SpeedData) dataSpeed;
-		this.id = id;
 	}
 
 	@Override
@@ -33,6 +31,6 @@ class SpeedSensor extends ISensor {
 	}
 
 	public String toString() {
-		return speed.getSensorType() + ": " + speed.getData1() + " - " + speed.getData2() + " - " +  speed.getTimestamp();
+		return speed.getDataType() + ": " + speed.getData1() + " - " + speed.getData2() + " - " +  speed.getTimestamp();
 	}
 }

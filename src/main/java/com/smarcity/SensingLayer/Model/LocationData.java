@@ -1,47 +1,36 @@
 package com.smarcity.SensingLayer.Model;
 
+import com.smarcity.SensingLayer.Factory.Vehicle;
 import com.smarcity.SensingLayer.Interfaces.ISensing;
 
 public class LocationData extends Data {
     private static final long serialVersionUID = 1L;
-    private String sensorType;
-    private ISensing owner;
-    private int trafficLightId;
 
-    public LocationData(String latitude, String longitude, String sensorType, String timestamp, ISensing owner,
-            int id) {
-        super(latitude, longitude, timestamp, id);
-        this.sensorType = sensorType;
-        this.owner = owner;
+    public LocationData(String latitude, String longitude, String dataType, String timestamp, ISensing origin) {
+        super(latitude, longitude, dataType, timestamp, origin);
+        super.setDataType(dataType);
     }
 
-    public LocationData(String latitude, String longitude, String sensorType, String timestamp, ISensing owner, int id,
-            int trafficLightId) {
-        super(latitude, longitude, timestamp, id);
-        this.sensorType = sensorType;
-        this.owner = owner;
-        this.trafficLightId = trafficLightId;
+    public LocationData(String latitude, String longitude, String dataType, String timestamp, String originString) {
+        super(latitude, longitude, dataType, timestamp, originString);
+        super.setDataType(dataType);
     }
 
-    public String getSensorType() {
-        return sensorType;
+    public String getDataType() {
+        return super.getDataType();
     }
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType;
-    }
-
-    public ISensing getOwner() {
-        return this.owner;
+    public void setDataType(String dataType) {
+        super.setDataType(dataType);
     }
 
     public String toString() {
-        return this.sensorType + ": " + super.getData1() + " - " + super.getData2() + " - " + super.getTimestamp()
-                + " - " + owner.getClass();
+        return super.getDataType() + ": " + super.getData1() + " - " + super.getData2() + " - " + super.getTimestamp()
+        + " - id: " + super.getOrigin();
     }
 
-    public void setId(int id) {
-        super.setSensorId(id);
+    public void setOrigin(ISensing origin) {
+        super.setOrigin(origin);
     }
 
     public void setLatitude(String latitude) {
@@ -56,11 +45,7 @@ public class LocationData extends Data {
         setOwner(owner);
     }
 
-    public void setTrafficLightId(int id) {
-        this.trafficLightId = id;
-    }
-
-    public int getId() {
-        return super.getSensorId();
+    public ISensing getOrigin() {
+        return super.getOrigin();
     }
 }
