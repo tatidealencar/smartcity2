@@ -5,34 +5,36 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
-public class Data implements Serializable {
+import com.smarcity.SensingLayer.Interfaces.ISensing;
+
+public abstract class Data implements Serializable {
     private static final long SERIALVERSIONUID = 1L;
-    private String data1;
-    private String data2;
+    private String latitude;
+    private String longitude;
     private String timestamp;
-    private int sensorId;
+    private int sensingId; // Owner
 
-    public Data(String data1, String data2, String timestamp, int id) {
-        this.data1 = data1;
-        this.data2 = data2;
+    public Data(String latitude, String longitude, String timestamp, int sensingId) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.timestamp = timestamp;
-        this.sensorId = id;
+        this.sensingId = sensingId;
     }
 
-    public String getData1() {
-        return this.data1;
+    public String getLatitude() {
+        return this.latitude;
     }
 
-    public void setLData1(String data1) {
-        this.data1 = data1;
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
-    public String getData2() {
-        return this.data2;
+    public String getLongitude() {
+        return this.longitude;
     }
 
-    public void setLData2(String data2) {
-        this.data2 = data2;
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
     }
 
     public String getTimestamp() {
@@ -43,12 +45,12 @@ public class Data implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public int getSensorId() {
-        return this.sensorId;
+    public int getSensingId() {
+        return this.sensingId;
     }
 
-    public void setSensorId(int sensorId) {
-        this.sensorId = sensorId;
+    public void setSensingId(int sensingId) {
+        this.sensingId = sensingId;
     }
 
     // Método estático para desserializar um array de bytes em um objeto Data

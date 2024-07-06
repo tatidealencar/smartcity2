@@ -9,18 +9,18 @@ import java.sql.SQLException;
 import com.smarcity.SensingLayer.Interfaces.ISensing;
 import com.smarcity.SensingLayer.Model.LocationData;
 
-public class LocationDataDB {
+public class SensingDB {
 
     private Database db;
 
-    public LocationDataDB() {
+    public SensingDB() {
         db = Database.getInstance();
         try {
 			this.createLocationDataTable();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Erro ao criar tabela LocationData no banco de dados.", e);
+			throw new RuntimeException("Erro ao criar tabela Sensing no banco de dados.", e);
 		}
     }
 
@@ -35,16 +35,11 @@ public class LocationDataDB {
         }
     }
 
-    private void createLocationDataTable() throws SQLException {
+    private void createSensingTable() throws SQLException {
 
-		String sql = "CREATE TABLE IF NOT EXISTS locationData ("+
+		String sql = "CREATE TABLE IF NOT EXISTS Sensing ("+
 			"id INT AUTO_INCREMENT PRIMARY KEY," +
-			"latitude VARCHAR(255)," +
-			"longitude VARCHAR(255)," +
-			"sensorType VARCHAR(255)," +
-			"timestamp VARCHAR(255)," +
-			"ownerID INT" +
-            "FOREIGN KEY (ownerID) REFERENCES Sensing(SensingId));"; 
+			"type VARCHAR(255);";
 
 		try (PreparedStatement statement = db.getConnection().prepareStatement(sql)) {
 			statement.execute();
@@ -55,12 +50,12 @@ public class LocationDataDB {
 	}
 
     public int insertLocationData(LocationData location) throws SQLException {
-        String query = "INSERT INTO locationdata (latitude, longitude, sensorType, ownerID, trafficLightId) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO locationdata (latitude, longitude, sensorType, owner, trafficLightId) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setString(1, location.getLatitude());
             stmt.setString(2, location.getLongitude());
             stmt.setString(3, location.getSensorType());
-            stmt.setString(4, location.getSensingId().toString());
+            stmt.setString(4, location.getOwner().getClass().getName());
             stmt.executeUpdate();
 
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
@@ -81,7 +76,8 @@ public class LocationDataDB {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     LocationData location = new LocationData(rs.getString("latitude"), rs.getString("longitude"),
-                            rs.getString("sensorType"), rs.getString("timestamp"), rs.getString("ownerId"));
+                            rs.getString("sensorType"), rs.getString("timestamp"), parseSensing(rs.getString("owner")),
+                            id);
                     return location;
                 } else {
                     return null; // Or throw an exception if preferred
@@ -118,3 +114,4 @@ public class LocationDataDB {
         }
     }
 }
+

@@ -1,0 +1,5 @@
+0:0:0:0:0:0:0:1 - - [29/Jun/2024:00:29:21 -0300] "GET /smartcity/simulator.jsp HTTP/1.1" 200 11842 http-bio-9090-exec-1 1181
+0:0:0:0:0:0:0:1 - - [29/Jun/2024:00:29:22 -0300] "GET /smartcity/style.css HTTP/1.1" 304 - http-bio-9090-exec-3 5
+0:0:0:0:0:0:0:1 - - [29/Jun/2024:00:29:22 -0300] "GET /smartcity/do_not_cross.mp3 HTTP/1.1" 304 - http-bio-9090-exec-4 8
+0:0:0:0:0:0:0:1 - - [29/Jun/2024:00:29:26 -0300] "GET /smartcity/DataServlet?trafficLightLat=&trafficLightLng=&trafficLightStatus=RED&pedestrianLat=&pedestrianLng=&carLat=&carLng=&carSpeed= HTTP/1.1" 200 1969 http-bio-9090-exec-5 105
+0:0:0:0:0:0:0:1 - - [29/Jun/2024:00:29:26 -0300] "GET /favicon.ico HTTP/1.1" 404 - http-bio-9090-exec-6 0

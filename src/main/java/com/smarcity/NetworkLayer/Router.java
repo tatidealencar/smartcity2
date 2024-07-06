@@ -31,7 +31,7 @@ public class Router {
 		// Simulando o roteamento
 		if (origin.equals("Gateway")) {
 			Gateway gateway = new Gateway("192.168.1.1");
-			return gateway.fetchDataFromCloud(owner, id, consoleOutput);
+			return gateway.fetchDataFromCloud(id, consoleOutput);
 		}
 		return null;
 	}

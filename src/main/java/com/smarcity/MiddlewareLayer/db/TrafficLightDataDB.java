@@ -10,7 +10,31 @@ public class TrafficLightDataDB {
 
     public TrafficLightDataDB() {
         db = Database.getInstance();
+
+        try {
+			this.createTrafficLightDataTable();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Erro ao criar a tabela Traffic Light Data no banco de dados", e);
+		}
     }
+
+    private void createTrafficLightDataTable() throws SQLException {
+		String sql = "CREATE TABLE IF NOT EXISTS trafficLightData (" +
+			"id INT AUTO_INCREMENT PRIMARY KEY," +
+			"status VARCHAR(255)," +
+			"duration VARCHAR(255)," +
+			"sensorType VARCHAR(255)," +
+			"timestamp VARCHAR(255));";
+	
+		try (PreparedStatement statement = db.getConnection().prepareStatement(sql)) {
+			statement.execute();
+			System.out.println("trafficLightData table created successfully.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
     public void createTrafficLightData(String status, String duration, String sensorType, String timestamp)
             throws SQLException {
@@ -26,9 +50,14 @@ public class TrafficLightDataDB {
 
     public ResultSet readTrafficLightData(int id) throws SQLException {
         String query = "SELECT * FROM trafficlightdata WHERE id = ?";
-        PreparedStatement stmt = db.getConnection().prepareStatement(query);
-        stmt.setInt(1, id);
-        return stmt.executeQuery();
+        try { PreparedStatement stmt = db.getConnection().prepareStatement(query);
+            stmt.setInt(1, id);
+            return stmt.executeQuery();
+        }
+        catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException("Erro ao ler LocationData do banco de dados.", e);
+		}
     }
 
     public void updateTrafficLightData(int id, String status, String duration, String sensorType, String timestamp)

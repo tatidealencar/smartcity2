@@ -10,8 +10,8 @@ public class TrafficLightData extends Data {
     private String duration;
     private String sensorType;
 
-    public TrafficLightData(LocationData location, TrafficLightStatus status, String duration, String sensorType, String timestamp, int id) {
-        super(location.getData1(), location.getData2(), timestamp, id);
+    public TrafficLightData(LocationData location, TrafficLightStatus status, String duration, String sensorType, String timestamp, int sensingId) {
+        super(location.getLatitude(), location.getLongitude(), timestamp, sensingId);
         this.location = location;
         this.status = status;
         this.duration = duration;
@@ -44,6 +44,6 @@ public class TrafficLightData extends Data {
     }
 
     public String toString() {
-        return sensorType + ": " + location.getData1() + " - " + location.getData2() + " - " + duration + " - " + status + " - " + timestamp;
+        return sensorType + ": " + location.getLatitude() + " - " + location.getLongitude() + " - " + duration + " - " + status + " - " + timestamp;
     }
 }

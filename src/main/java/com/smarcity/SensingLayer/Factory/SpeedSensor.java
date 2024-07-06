@@ -33,6 +33,6 @@ class SpeedSensor extends ISensor {
 	}
 
 	public String toString() {
-		return speed.getSensorType() + ": " + speed.getData1() + " - " + speed.getData2() + " - " +  speed.getTimestamp();
+		return speed.getSensorType() + ": " + speed.getLatitude() + " - " + speed.getLongitude() + " - " +  speed.getTimestamp();
 	}
 }

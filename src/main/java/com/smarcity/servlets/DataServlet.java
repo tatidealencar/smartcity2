@@ -57,7 +57,7 @@ public class DataServlet extends HttpServlet {
         String pedestrianLat = "-23.5610";
         String pedestrianLng = "-46.6562";
         String carLat = "-23.5610";
-        String carLng = "-46.6560";
+        String carLng = "-46.6555";
         String carSpeed = "100";
 
         /*if (trafficLightStatus == null) {
@@ -128,8 +128,10 @@ public class DataServlet extends HttpServlet {
         }
 
         TrafficMonitor trafficMonitor = TrafficMonitor.getInstance();
-        UserNotifier userNotifier = new UserNotifier(1, NotificationType.HAPTIC);
-        trafficMonitor.registerObserver(userNotifier);
+        UserNotifier pedestrianNotifier = new UserNotifier(1, NotificationType.VISUAL);
+        trafficMonitor.registerObserver(pedestrianNotifier);
+        UserNotifier vehicleNotifier = new UserNotifier(1, NotificationType.VISUAL);
+        trafficMonitor.registerObserver(vehicleNotifier);
         trafficMonitor.monitorTraffic(locationSensorVehicle, speedSensorDataVehicle, sensorDataTrafficLight, mobileList,
                 listData, jsonResponse);
 

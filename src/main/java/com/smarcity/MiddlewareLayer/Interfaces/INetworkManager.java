@@ -10,7 +10,7 @@ public interface INetworkManager {
 
     public void disconnect();
 
-    public String sendData(Data data, Router route) throws Exception;
+    public String sendData(Data data, Router router) throws Exception;
 
     public Data receiveData(Router router, ISensing owner, int id);
 

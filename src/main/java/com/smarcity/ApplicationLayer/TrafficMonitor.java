@@ -53,12 +53,12 @@ public class TrafficMonitor implements Subject {
 				if (owner instanceof SmartphoneMobile) {
 					locationSmartphones.add(data);
 				} else if (owner instanceof Vehicle) {
-					locationVehicle = new LocationData(data.getData1(), data.getData2(), "location",
+					locationVehicle = new LocationData(data.getLatitude(), data.getLongitude(), "location",
 							data.getTimestamp(), owner, data.getSensorId());
 				}
 			} else if (data instanceof SpeedData) {
-				speedVehicle = new SpeedData(data.getData1(), data.getData2(), "speed", data.getTimestamp(),
-						data.getSensorId());
+				speedVehicle = new SpeedData(data.getLatitude(), data.getLongitude(), "speed", data.getTimestamp(),
+						data.getSensorId(), data.getOwner());
 			} else if (data instanceof TrafficLightData) {
 				locationTrafficLight = ((TrafficLightData) data).getLocation();
 				trafficLightStatus = ((TrafficLightData) data).getStatus();

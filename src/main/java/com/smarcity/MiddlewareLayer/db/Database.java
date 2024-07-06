@@ -26,16 +26,17 @@ public class Database implements IDataBase {
 	private Database() {
 		try {
 			connection = DriverManager.getConnection(URL, USER, PASSWORD);
+
 		} catch (SQLException e) {
 			e.printStackTrace();
-			throw new RuntimeException("Erro ao conectar ao banco de dados", e);
+			throw new RuntimeException("Erro ao criar banco de dados", e);
 		}
 	}
 
 	public Connection getConnection() {
 		return connection;
 	}
-
+	
 	public ResultSet executeQuery(String query) throws SQLException {
 		PreparedStatement statement = connection.prepareStatement(query);
 		return statement.executeQuery();

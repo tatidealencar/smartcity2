@@ -15,15 +15,15 @@ public class AnalyticsEngine {
         if (locationVehicle != null && speedVehicle != null && locationTrafficLight != null
                 && trafficLightStatus != null) {
 
-            double vehicleLat = Double.parseDouble(locationVehicle.getData1());
-            double vehicleLon = Double.parseDouble(locationVehicle.getData2());
-            double trafficLightLat = Double.parseDouble(locationTrafficLight.getData1());
-            double trafficLightLon = Double.parseDouble(locationTrafficLight.getData2());
-            double vehicleSpeed = Double.parseDouble(speedVehicle.getData1()); // Assumindo que a velocidade está em m/s
+            double vehicleLat = Double.parseDouble(locationVehicle.getLatitude());
+            double vehicleLon = Double.parseDouble(locationVehicle.getLongitude());
+            double trafficLightLat = Double.parseDouble(locationTrafficLight.getLatitude());
+            double trafficLightLon = Double.parseDouble(locationTrafficLight.getLongitude());
+            double vehicleSpeed = Double.parseDouble(speedVehicle.getLatitude()); // Assumindo que a velocidade está em m/s
 
             for (Data smartphoneLocation : locationSmartphones) {
-                double smartphoneLat = Double.parseDouble(smartphoneLocation.getData1());
-                double smartphoneLon = Double.parseDouble(smartphoneLocation.getData2());
+                double smartphoneLat = Double.parseDouble(smartphoneLocation.getLatitude());
+                double smartphoneLon = Double.parseDouble(smartphoneLocation.getLongitude());
 
                 double distanceToTrafficLight = calculateDistance(vehicleLat, vehicleLon, trafficLightLat, trafficLightLon);
                 double timeToCollision = distanceToTrafficLight / vehicleSpeed;

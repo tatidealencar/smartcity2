@@ -80,6 +80,7 @@
             <div class="device smartphone">
                 <h4 class="text-center">Smartphone</h4>
                 <div id="smartphone-notification" class="alert alert-info">Nenhuma notificação</div>
+                <audio id="audio-collision" src="do_not_cross.mp3" type="audio/mp3"></audio>
             </div>
             <div class="device car-dashboard">
                 <div class="dashboard-title">Painel do Carro</div>
@@ -187,7 +188,7 @@
                     }
 
                     // Update console output
-                    document.getElementById('console-output').textContent = data.consoleOutput;
+                    document.getElementById('console-output').textContent = "CHEGUEI AQUI";// data.consoleOutput;
 
                 });
         });
@@ -217,6 +218,12 @@
             vehicleNotification.classList.add('alert-danger');
 
             vehicleNotification.textContent = notification.message;
+
+            const audioNotification = document.getElementById('audio-collision');
+
+            audioNotification.play();
+            audio.volume = 1.0;  // Max volume 
+            audio.muted = false; // Ensure it will not be muted
         }
 
         function noColisionRiskNotification() {

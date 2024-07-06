@@ -20,7 +20,6 @@ public class NetworkManager implements INetworkManager {
 
 	private NetworkManager(StringBuilder consoleOutput) {
 		this.consoleOutput = consoleOutput;
-
 	}
 
 	public static INetworkManager getInstance(StringBuilder consoleOutput) {
@@ -29,6 +28,13 @@ public class NetworkManager implements INetworkManager {
 		}
 		return instance;
 	}
+
+/* 	public static INetworkManager getInstance() {
+		if (instance == null) {
+			instance = new NetworkManager(consoleOutput);
+		}
+		return instance;
+	} */
 
 	public void connect( ) {
 		consoleOutput.append("Connecting using ").append(network.getProtocol()).append(" with bandwidth "). append(network.getBandwidth());

@@ -46,7 +46,7 @@ public class Vehicle extends IMobile {
 	}
 
 	public String toString() {
-		return "Vehicle | " + location.getSensorType() + ": " + location.getData1() + " - " + location.getData2()
+		return "Vehicle | " + location.getSensorType() + ": " + location.getLatitude() + " - " + location.getLongitude()
 				+ " - " + location.getTimestamp();
 	}
 
