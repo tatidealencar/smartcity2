@@ -48,9 +48,9 @@ public class NetworkManager implements INetworkManager {
 		return "";
 	}
 
-	public Data receiveData(Router router, ISensing owner, int id) {
+	public Data receiveData(Router router, ISensing origin) {
 		System.out.println("Getting data");
-		return router.receivePacket("Gateway", owner, id, consoleOutput);
+		return router.receivePacket("Gateway", origin, consoleOutput);
 	}
 
 	public NetworkInterface getNetwork() {

@@ -2,21 +2,22 @@ package com.smarcity.SensingLayer.Model;
 
 import com.smarcity.Enum.TrafficLightStatus;
 
+import com.smarcity.SensingLayer.Interfaces.ISensing;
+
 public class TrafficLightData extends Data {
     private static final long serialVersionUID = 1L; 
     private LocationData location;
     private String timestamp;
     private TrafficLightStatus status;
     private String duration;
-    private String sensorType;
 
-    public TrafficLightData(LocationData location, TrafficLightStatus status, String duration, String sensorType, String timestamp, int id) {
-        super(location.getData1(), location.getData2(), timestamp, id);
+    public TrafficLightData(LocationData location, TrafficLightStatus status, String duration, String dataType, String timestamp, ISensing origin) {
+        super(location.getData1(), location.getData2(), dataType, timestamp, origin);
         this.location = location;
         this.status = status;
         this.duration = duration;
         this.timestamp = timestamp;
-        this.sensorType = sensorType;
+        super.setDataType(dataType);
     }
 
     public String getTimestamp() {
@@ -27,12 +28,12 @@ public class TrafficLightData extends Data {
         this.timestamp = timestamp;
     }
 
-    public String getSensorType() {
-        return sensorType;
+    public String getDataType() {
+        return super.getDataType();
     }
 
-    public void setSensorType(String sensorType) {
-        this.sensorType = sensorType;
+    public void setDataType(String dataType) {
+        super.setDataType(dataType);
     }
 
     public TrafficLightStatus getStatus(){
@@ -44,6 +45,6 @@ public class TrafficLightData extends Data {
     }
 
     public String toString() {
-        return sensorType + ": " + location.getData1() + " - " + location.getData2() + " - " + duration + " - " + status + " - " + timestamp;
+        return super.getDataType() + ": " + location.getData1() + " - " + location.getData2() + " - " + duration + " - " + status + " - " + timestamp;
     }
 }

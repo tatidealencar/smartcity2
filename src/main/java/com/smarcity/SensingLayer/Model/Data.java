@@ -5,18 +5,39 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 
+import com.smarcity.SensingLayer.Interfaces.ISensing;
+
 public class Data implements Serializable {
-    private static final long SERIALVERSIONUID = 1L;
+    private static final long serialVersionUID = 1L;
     private String data1;
     private String data2;
     private String timestamp;
-    private int sensorId;
+    /* origin is the origin of the object that is the origin for the data,
+    it is an ISensing that can be: 
+     * Vehicle, SmartphoneMobile (IMobile)
+     * TrafficLightActuator (IActuator)
+     * LocationSensor, SpeedSensor (ISensor)
+     */
+    private ISensing origin;
+    /* dataType can be: 
+        LocationData        "location"
+        SpeedData           "speed"
+        TrafficLightData    "trafficlight"
+    */
+    private String dataType; 
 
-    public Data(String data1, String data2, String timestamp, int id) {
+    public Data(String data1, String data2, String timestamp, String dataType, ISensing origin) {
         this.data1 = data1;
         this.data2 = data2;
         this.timestamp = timestamp;
-        this.sensorId = id;
+        this.origin = origin;
+    }
+
+    public Data(String data1, String data2, String timestamp, String dataType, String originString) {
+        this.data1 = data1;
+        this.data2 = data2;
+        this.timestamp = timestamp;
+        //this.origin = origin;
     }
 
     public String getData1() {
@@ -43,12 +64,21 @@ public class Data implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public int getSensorId() {
-        return this.sensorId;
+    public ISensing getOrigin() {
+        return this.origin;
     }
 
-    public void setSensorId(int sensorId) {
-        this.sensorId = sensorId;
+    public void setOrigin(ISensing origin) {
+        this.origin = origin;
+    }
+
+    public String getDataType() {
+        return dataType
+        ;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
     }
 
     // Método estático para desserializar um array de bytes em um objeto Data

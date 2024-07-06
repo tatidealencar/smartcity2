@@ -1,11 +1,13 @@
 package com.smarcity.MiddlewareLayer;
 
+import com.smarcity.MiddlewareLayer.db.Database;
 import com.smarcity.SensingLayer.Model.Data;
 
 public class DataProcessor {
 
 	private String apiEndpoint;
 	private Data data;
+	private Database db;
 
 	public DataProcessor(String apiEndpoint) {
 		this.apiEndpoint = apiEndpoint;
@@ -20,6 +22,8 @@ public class DataProcessor {
 			System.out.println("No data to send.");
 		}
 
+		// TODO: Here the data could be saved in the database
+		
 		System.out.println("Data sent successfully.");
 		return data;
 	}

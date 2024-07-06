@@ -18,7 +18,7 @@ public class SpeedDataDB {
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setString(1, speed.getData1());
             stmt.setString(2, speed.getData2());
-            stmt.setString(3, speed.getSensorType());
+            stmt.setString(3, speed.getDataType());
             stmt.setString(4, speed.getTimestamp());
             stmt.executeUpdate();
 
@@ -38,13 +38,14 @@ public class SpeedDataDB {
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
+                /* TODO fix
                 if (rs.next()) {
                     SpeedData speed = new SpeedData(rs.getString("latitude"), rs.getString("longitude"),
-                            rs.getString("sensorType"), rs.getString("timestamp"), id);
+                            rs.getString("sensorType"), rs.getString("timestamp"), rs.getString("timestamp"));
                     return speed;
                 } else {
                     return null; // Or throw an exception if preferred
-                }
+                }*/ return null;
             }
         }
     }

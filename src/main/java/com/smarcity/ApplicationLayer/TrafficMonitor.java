@@ -18,6 +18,8 @@ import com.smarcity.SensingLayer.Model.SpeedData;
 import com.smarcity.SensingLayer.Model.TrafficLightData;
 import com.smarcity.SensingLayer.State.DisconnectedState;
 
+import com.smarcity.SensingLayer.Interfaces.ISensing;
+
 public class TrafficMonitor implements Subject {
 
 	private List<Observer> observers = new ArrayList<>();
@@ -49,16 +51,16 @@ public class TrafficMonitor implements Subject {
 
 		for (Data data : dataList) {
 			if (data instanceof LocationData) {
-				ISensing owner = ((LocationData) data).getOwner();
-				if (owner instanceof SmartphoneMobile) {
+				ISensing origin = ((LocationData) data).getOrigin();
+				if (origin instanceof SmartphoneMobile) {
 					locationSmartphones.add(data);
-				} else if (owner instanceof Vehicle) {
+				} else if (origin instanceof Vehicle) {
 					locationVehicle = new LocationData(data.getData1(), data.getData2(), "location",
-							data.getTimestamp(), owner, data.getSensorId());
+							data.getTimestamp(), data.getOrigin());
 				}
 			} else if (data instanceof SpeedData) {
 				speedVehicle = new SpeedData(data.getData1(), data.getData2(), "speed", data.getTimestamp(),
-						data.getSensorId());
+						data.getOrigin());
 			} else if (data instanceof TrafficLightData) {
 				locationTrafficLight = ((TrafficLightData) data).getLocation();
 				trafficLightStatus = ((TrafficLightData) data).getStatus();
@@ -97,7 +99,7 @@ public class TrafficMonitor implements Subject {
         for (IMobile m : mobileList) {
             if (!m.getState().equals(DisconnectedState.getInstance())) {
                 for (Data d : listData) {
-                    if (d.getSensorId() == m.getSensorId() && d instanceof LocationData) {
+                    if (d.getOrigin().getId() == m.getId() && d instanceof LocationData) {
                         activated.add(d);
                         continue;
                     }

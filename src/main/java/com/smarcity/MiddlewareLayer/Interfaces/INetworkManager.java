@@ -12,7 +12,7 @@ public interface INetworkManager {
 
     public String sendData(Data data, Router route) throws Exception;
 
-    public Data receiveData(Router router, ISensing owner, int id);
+    public Data receiveData(Router router, ISensing origin);
 
     public void setNetworkInterface(NetworkInterface network);
 }

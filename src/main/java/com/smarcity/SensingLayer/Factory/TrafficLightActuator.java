@@ -9,13 +9,12 @@ import com.smarcity.SensingLayer.Model.TrafficLightData;
 public class TrafficLightActuator extends IActuator {
 
 	private TrafficLightData trafficLightData;
-	private int id;
 
 	public void collectData(TrafficLightStatus status, int id, LocationData location) {
 		//LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this, id);
-		TrafficLightData dataTrafficLight = new TrafficLightData(location, status, "30", "trafficlight", "2024-05-22T14:30:00Z", id);
+		TrafficLightData dataTrafficLight = new TrafficLightData(location, status, "30", "trafficlight", "2024-05-22T14:30:00Z", this);
 		this.trafficLightData = dataTrafficLight;
-		this.id = id;
+		this.setId(id);
 	}
 
 	@Override
@@ -34,7 +33,7 @@ public class TrafficLightActuator extends IActuator {
 	}
 
 	public String toString() {
-		return trafficLightData.getSensorType() + ": " + trafficLightData.getData1() + " - " + trafficLightData.getData2() + " - " +  trafficLightData.getTimestamp();
+		return trafficLightData.getDataType() + ": " + trafficLightData.getData1() + " - " + trafficLightData.getData2() + " - " +  trafficLightData.getTimestamp();
 	}
 
 }
