@@ -39,8 +39,7 @@ public class SpeedDataDB {
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    SpeedData speed = new SpeedData(rs.getString("latitude"), rs.getString("longitude"),
-                            rs.getString("sensorType"), rs.getString("timestamp"), id);
+                    SpeedData speed = new SpeedData(rs.getString("speed"), rs.getString("timestamp"), id);
                     return speed;
                 } else {
                     return null; // Or throw an exception if preferred

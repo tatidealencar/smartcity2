@@ -8,11 +8,11 @@ import java.sql.SQLException;
 import com.smarcity.SensingLayer.Interfaces.ISensing;
 import com.smarcity.SensingLayer.Model.LocationData;
 
-public class LocationDataDB {
+public class DataDB {
 
     private Database db;
 
-    public LocationDataDB() {
+    public DataDB() {
         db = Database.getInstance();
     }
 
@@ -28,7 +28,7 @@ public class LocationDataDB {
     }
 
     public int createLocationData(LocationData location) throws SQLException {
-        String query = "INSERT INTO locationdata (latitude, longitude, sensorType, owner, trafficLightId) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO data (latitude, longitude, sensorType, owner, trafficLightId) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             stmt.setString(1, location.getData1());
             stmt.setString(2, location.getData2());
@@ -54,7 +54,7 @@ public class LocationDataDB {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     LocationData location = new LocationData(rs.getString("latitude"), rs.getString("longitude"),
-                            rs.getString("sensorType"), rs.getString("timestamp"), parseSensing(rs.getString("owner")),
+                            rs.getString("timestamp"), parseSensing(rs.getString("owner")),
                             id);
                     return location;
                 } else {

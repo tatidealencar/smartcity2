@@ -1,15 +1,12 @@
 package com.smarcity.SensingLayer.Interfaces;
 
-import com.smarcity.SensingLayer.Model.LocationData;
 import com.smarcity.SensingLayer.State.MobileState;
 
 public abstract class IMobile implements ISensing {
 	
 	private MobileState state;
 
-	private int sensorId;
-
-	public abstract LocationData getCurrentLocation();
+	private int id;
 
 	public void setState(MobileState s) {
 		this.state = s;
@@ -19,11 +16,11 @@ public abstract class IMobile implements ISensing {
 		return this.state;
 	}
 
-	public int getSensorId() {
-		return this.sensorId;
+	public int getId() {
+		return this.id;
 	}
 
-	public void setSensorId(int sensorId) {
-		this.sensorId = sensorId;
+	public void setId(int id) {
+		this.id = id;
 	}
 }

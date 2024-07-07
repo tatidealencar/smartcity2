@@ -12,8 +12,7 @@ public class TrafficLightActuator extends IActuator {
 	private int id;
 
 	public void collectData(TrafficLightStatus status, int id, LocationData location) {
-		//LocationData location = new LocationData("37.774929" ,"-122.419416", "location", "2024-05-22T14:30:00Z", this, id);
-		TrafficLightData dataTrafficLight = new TrafficLightData(location, status, "30", "trafficlight", "2024-05-22T14:30:00Z", id);
+		TrafficLightData dataTrafficLight = new TrafficLightData(location, status, "30", "2024-05-22T14:30:00Z", location.getOwner());
 		this.trafficLightData = dataTrafficLight;
 		this.id = id;
 	}
@@ -35,6 +34,11 @@ public class TrafficLightActuator extends IActuator {
 
 	public String toString() {
 		return trafficLightData.getSensorType() + ": " + trafficLightData.getData1() + " - " + trafficLightData.getData2() + " - " +  trafficLightData.getTimestamp();
+	}
+
+	@Override
+	public int getId() {
+		return this.id;
 	}
 
 }

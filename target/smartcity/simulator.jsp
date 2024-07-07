@@ -156,7 +156,7 @@
                             if (Object.keys(data.userNotification).length > 0) {
                                 const notification = JSON.parse(data.userNotification);
 
-                                collisionRiskNotification();
+                                collisionRiskNotification(notification);
 
                             } else {
                                 noColisionRiskNotification();
@@ -192,7 +192,7 @@
                 });
         });
 
-        function collisionRiskNotification() {
+        function collisionRiskNotification(notification) {
 
             const smartphoneNotification = document.getElementById(
                 'smartphone-notification');

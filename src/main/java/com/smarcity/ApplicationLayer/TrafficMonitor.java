@@ -53,15 +53,14 @@ public class TrafficMonitor implements Subject {
 				if (owner instanceof SmartphoneMobile) {
 					locationSmartphones.add(data);
 				} else if (owner instanceof Vehicle) {
-					locationVehicle = new LocationData(data.getData1(), data.getData2(), "location",
-							data.getTimestamp(), owner, data.getSensorId());
+					locationVehicle = new LocationData(data.getData1(), data.getData2(), data.getTimestamp(), owner);
 				}
 			} else if (data instanceof SpeedData) {
-				speedVehicle = new SpeedData(data.getData1(), data.getData2(), "speed", data.getTimestamp(),
-						data.getSensorId());
+				speedVehicle = new SpeedData(data.getData1(), data.getTimestamp(),
+						data.getOwner());
 			} else if (data instanceof TrafficLightData) {
 				locationTrafficLight = ((TrafficLightData) data).getLocation();
-				trafficLightStatus = ((TrafficLightData) data).getStatus();
+				trafficLightStatus = TrafficLightStatus.valueOf(data.getData1());
 			}
 		}
 
@@ -97,7 +96,7 @@ public class TrafficMonitor implements Subject {
         for (IMobile m : mobileList) {
             if (!m.getState().equals(DisconnectedState.getInstance())) {
                 for (Data d : listData) {
-                    if (d.getSensorId() == m.getSensorId() && d instanceof LocationData) {
+                    if (d.getOwner().getId() == m.getId() && d instanceof LocationData) {
                         activated.add(d);
                         continue;
                     }

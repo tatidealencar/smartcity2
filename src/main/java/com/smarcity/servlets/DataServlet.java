@@ -60,10 +60,6 @@ public class DataServlet extends HttpServlet {
         String carLng = "-46.6560";
         String carSpeed = "100";
 
-        /*if (trafficLightStatus == null) {
-            trafficLightStatus = "RED";
-        }*/
-
         NetworkInterface5G networkInterface5G = new NetworkInterface5G("5G", 500, "Tim", 70);
         NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance(consoleOutput);
         networkManager.setNetworkInterface(networkInterface5G);
@@ -83,13 +79,13 @@ public class DataServlet extends HttpServlet {
         IMobile vehicle = mobileFactory.createVehicle(1);
         vehicle.setState(ConnectedState.getInstance());
 
-        LocationData vehicleDataLocation = new LocationData(carLat, carLng, "location", currentTimestamp, vehicle, 1);
-        locationSensorVehicle.collectData(vehicle, 1, vehicleDataLocation);
+        LocationData vehicleDataLocation = new LocationData(carLat, carLng, currentTimestamp, vehicle);
+        locationSensorVehicle.collectData(locationSensorVehicle.getId(), vehicleDataLocation);
         LocationData locationSensorDataVehicle = (LocationData) locationSensorVehicle.readData();
 
         ISensor speedSensorVehicle = sensorFactory.createSpeedSensor();
-        SpeedData dataSpeed = new SpeedData(carSpeed, "Km/h", "speed", currentTimestamp, 1);
-        speedSensorVehicle.collectData(vehicle, 1, dataSpeed);
+        SpeedData dataSpeed = new SpeedData(carSpeed, currentTimestamp, vehicle);
+        speedSensorVehicle.collectData(speedSensorVehicle.getId(), dataSpeed);
         SpeedData speedSensorDataVehicle = (SpeedData) speedSensorVehicle.readData();
 
         listData.add(locationSensorDataVehicle);
@@ -101,8 +97,8 @@ public class DataServlet extends HttpServlet {
         IMobile smartphone = mobileFactory.createSmartphoneMobile(2);
         smartphone.setState(ConnectedState.getInstance());
 
-        LocationData smartphoneDataLocation = new LocationData(pedestrianLat, pedestrianLng, "location", currentTimestamp, smartphone, 2);
-        locationSensorMobile.collectData(smartphone, 2, smartphoneDataLocation);
+        LocationData smartphoneDataLocation = new LocationData(pedestrianLat, pedestrianLng, currentTimestamp, smartphone);
+        locationSensorMobile.collectData(locationSensorMobile.getId(), smartphoneDataLocation);
         LocationData sensorDataSmartphone = (LocationData) locationSensorMobile.readData();
         listData.add(sensorDataSmartphone);
         mobileList.add(smartphone);
@@ -110,7 +106,7 @@ public class DataServlet extends HttpServlet {
         // Traffic light data
         IActuator locationSensorActuator = actuatorFactory.createTrafficLightActuator();
         
-        LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, "location", currentTimestamp, locationSensorActuator, 3);
+        LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, currentTimestamp, locationSensorActuator, 3);
         locationSensorActuator.collectData(TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), 3, locationTrafficLight);
         TrafficLightData sensorDataTrafficLight = (TrafficLightData) locationSensorActuator.readData();
         listData.add(sensorDataTrafficLight);
