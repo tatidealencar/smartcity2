@@ -3,7 +3,6 @@ package com.smarcity.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -15,6 +14,7 @@ import com.google.gson.JsonObject;
 
 import com.smarcity.ApplicationLayer.TrafficMonitor;
 import com.smarcity.ApplicationLayer.UserNotifier;
+import com.smarcity.ApplicationLayer.VehicleNotifier;
 import com.smarcity.Enum.NotificationType;
 import com.smarcity.Enum.TrafficLightStatus;
 import com.smarcity.MiddlewareLayer.DataProcessor;
@@ -23,16 +23,13 @@ import com.smarcity.NetworkLayer.NetworkManager;
 import com.smarcity.NetworkLayer.Router;
 import com.smarcity.SensingLayer.Factory.FactoryActuator;
 import com.smarcity.SensingLayer.Factory.FactoryMobile;
-import com.smarcity.SensingLayer.Factory.FactorySensor;
 import com.smarcity.SensingLayer.Interfaces.IActuator;
 import com.smarcity.SensingLayer.Interfaces.IMobile;
-import com.smarcity.SensingLayer.Interfaces.ISensor;
 import com.smarcity.SensingLayer.Model.Data;
 import com.smarcity.SensingLayer.Model.LocationData;
 import com.smarcity.SensingLayer.Model.SpeedData;
 import com.smarcity.SensingLayer.Model.TrafficLightData;
 import com.smarcity.SensingLayer.State.ConnectedState;
-import com.smarcity.SensingLayer.State.MobileState;
 
 @WebServlet(name = "DataServlet", urlPatterns = { "/DataServlet" })
 public class DataServlet extends HttpServlet {
@@ -106,8 +103,10 @@ public class DataServlet extends HttpServlet {
         }
 
         TrafficMonitor trafficMonitor = TrafficMonitor.getInstance();
-        UserNotifier userNotifier = new UserNotifier(1, NotificationType.HAPTIC);
+        UserNotifier userNotifier = new UserNotifier();
         trafficMonitor.registerObserver(userNotifier);
+        VehicleNotifier vehicleNotifier = new VehicleNotifier();
+        trafficMonitor.registerObserver(vehicleNotifier);
         trafficMonitor.monitorTraffic(jsonResponse);
 
         // Build JSON response

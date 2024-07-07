@@ -6,7 +6,6 @@ import com.smarcity.Enum.TrafficLightStatus;
 import com.smarcity.MiddlewareLayer.db.SensorDB;
 import com.smarcity.NetworkLayer.NetworkManager;
 import com.smarcity.SensingLayer.Interfaces.IActuator;
-import com.smarcity.SensingLayer.Interfaces.ISensing;
 
 public class TrafficLightActuator extends IActuator {
 

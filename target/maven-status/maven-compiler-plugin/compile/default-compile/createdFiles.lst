@@ -32,6 +32,7 @@ com\smarcity\Enum\NotificationType.class
 com\smarcity\SensingLayer\Factory\TrafficLightActuator.class
 com\smarcity\NetworkLayer\Gateway.class
 com\smarcity\SensingLayer\Model\TrafficLightData.class
+com\smarcity\ApplicationLayer\VehicleNotifier.class
 com\smarcity\MiddlewareLayer\db\DataDB.class
 com\smarcity\SensingLayer\State\ConnectedState.class
 com\smarcity\ApplicationLayer\UserNotifier.class

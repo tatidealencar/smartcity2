@@ -14,7 +14,6 @@ import com.smarcity.SensingLayer.Factory.SmartphoneMobile;
 import com.smarcity.SensingLayer.Factory.Vehicle;
 import com.smarcity.SensingLayer.Interfaces.IMobile;
 import com.smarcity.SensingLayer.Interfaces.ISensing;
-import com.smarcity.SensingLayer.Interfaces.ISensor;
 import com.smarcity.SensingLayer.Model.Data;
 import com.smarcity.SensingLayer.Model.LocationData;
 import com.smarcity.SensingLayer.Model.SpeedData;
