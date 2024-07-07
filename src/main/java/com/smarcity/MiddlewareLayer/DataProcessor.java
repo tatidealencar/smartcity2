@@ -1,5 +1,8 @@
 package com.smarcity.MiddlewareLayer;
 
+import java.sql.SQLException;
+
+import com.smarcity.MiddlewareLayer.db.DataDB;
 import com.smarcity.SensingLayer.Model.Data;
 
 public class DataProcessor {
@@ -15,13 +18,14 @@ public class DataProcessor {
 		return this.data;
 	}
 
-	public Data sendToCloud() {
+	public void sendToCloud() throws SQLException {
 		if (data == null) {
 			System.out.println("No data to send.");
+		} else  {
+			DataDB db = new DataDB();
+			db.createData(data);
 		}
 
-		System.out.println("Data sent successfully.");
-		return data;
 	}
 
 	public void processData(String data) {

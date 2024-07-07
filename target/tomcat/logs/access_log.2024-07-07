@@ -1,0 +1,3 @@
+0:0:0:0:0:0:0:1 - - [07/Jul/2024:17:36:50 -0300] "GET /smartcity/DataServlet?trafficLightLat=&trafficLightLng=&trafficLightStatus=RED&pedestrianLat=&pedestrianLng=&carLat=&carLng=&carSpeed= HTTP/1.1" 200 1205 http-bio-9090-exec-1 444
+0:0:0:0:0:0:0:1 - - [07/Jul/2024:17:36:59 -0300] "GET /smartcity/DataServlet?trafficLightLat=&trafficLightLng=&trafficLightStatus=RED&pedestrianLat=&pedestrianLng=&carLat=&carLng=&carSpeed= HTTP/1.1" 200 721 http-bio-9090-exec-2 75
+0:0:0:0:0:0:0:1 - - [07/Jul/2024:17:37:04 -0300] "GET /smartcity/DataServlet?trafficLightLat=&trafficLightLng=&trafficLightStatus=RED&pedestrianLat=&pedestrianLng=&carLat=&carLng=&carSpeed= HTTP/1.1" 200 721 http-bio-9090-exec-3 117

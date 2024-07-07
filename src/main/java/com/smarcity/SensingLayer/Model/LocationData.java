@@ -4,24 +4,13 @@ import com.smarcity.SensingLayer.Interfaces.ISensing;
 
 public class LocationData extends Data {
     private static final long serialVersionUID = 1L;
-    private int trafficLightId;
 
-    public LocationData(String latitude, String longitude, String timestamp, ISensing owner) {
-        super(latitude, longitude, timestamp, owner, "location");
+    public LocationData(String latitude, String longitude, ISensing owner) {
+        super(latitude, longitude, owner, "location");
     }
 
-    public LocationData(String latitude, String longitude, String timestamp, ISensing owner, int trafficLightId) {
-        super(latitude, longitude, timestamp, owner, "location");
-        this.trafficLightId = trafficLightId;
-    }
-
-
-    public void setTrafficLightId(int id) {
-        this.trafficLightId = id;
-    }
-
-    public int getTrafficLightId() {
-        return this.trafficLightId;
+    public LocationData(int id, String latitude, String longitude, String timestamp, ISensing owner) {
+        super(id, latitude, longitude, timestamp, owner, "location");
     }
 
     public String toString() {

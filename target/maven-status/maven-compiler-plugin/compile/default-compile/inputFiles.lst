@@ -6,7 +6,6 @@ C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Interfaces\IMobile.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Model\LocationData.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Factory\TrafficLightActuator.java
-C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\db\TrafficLightDataDB.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\State\DisconnectedState.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\DataProcessor.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Interfaces\ISensor.java
@@ -19,6 +18,7 @@ C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\BusinessLayer\AnalyticsEngine.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\NetworkLayer\NetworkManager.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Model\SpeedData.java
+C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\db\SensorDB.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\ApplicationLayer\TrafficMonitor.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Factory\FactoryMobile.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\Enum\NotificationType.java
@@ -34,8 +34,7 @@ C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\db\Database.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Model\Data.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\Factory\Vehicle.java
-C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\db\LocationDataDB.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\NetworkLayer\Gateway.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\State\MobileState.java
-C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\db\SpeedDataDB.java
+C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\MiddlewareLayer\db\DataDB.java
 C:\Users\devti\Documents\Doutorado\ProjetoDSOO\Final\smartcity\src\main\java\com\smarcity\SensingLayer\State\ConnectedState.java

@@ -2,6 +2,7 @@ package com.smarcity.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +32,13 @@ import com.smarcity.SensingLayer.Model.LocationData;
 import com.smarcity.SensingLayer.Model.SpeedData;
 import com.smarcity.SensingLayer.Model.TrafficLightData;
 import com.smarcity.SensingLayer.State.ConnectedState;
+import com.smarcity.SensingLayer.State.MobileState;
 
 @WebServlet(name = "DataServlet", urlPatterns = { "/DataServlet" })
 public class DataServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
         response.setContentType("application/json;charset=UTF-8");
 
         StringBuilder consoleOutput = new StringBuilder();
@@ -66,49 +68,29 @@ public class DataServlet extends HttpServlet {
         Router router = new Router(1024);
 
         FactoryMobile mobileFactory = new FactoryMobile();
-        FactorySensor sensorFactory = new FactorySensor();
         FactoryActuator actuatorFactory = new FactoryActuator();
         List<Data> listData = new ArrayList<>();
         List<IMobile> mobileList = new ArrayList<>();
 
-        LocalDateTime timestamp = LocalDateTime.now();
-        String currentTimestamp = timestamp.toString();
-
         // Vehicle data
-        ISensor locationSensorVehicle = sensorFactory.createLocationSensor();
-        IMobile vehicle = mobileFactory.createVehicle(1);
-        vehicle.setState(ConnectedState.getInstance());
-
-        LocationData vehicleDataLocation = new LocationData(carLat, carLng, currentTimestamp, vehicle);
-        locationSensorVehicle.collectData(locationSensorVehicle.getId(), vehicleDataLocation);
-        LocationData locationSensorDataVehicle = (LocationData) locationSensorVehicle.readData();
-
-        ISensor speedSensorVehicle = sensorFactory.createSpeedSensor();
-        SpeedData dataSpeed = new SpeedData(carSpeed, currentTimestamp, vehicle);
-        speedSensorVehicle.collectData(speedSensorVehicle.getId(), dataSpeed);
-        SpeedData speedSensorDataVehicle = (SpeedData) speedSensorVehicle.readData();
-
+        IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance()); //sensor do veículo
+        LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle); //localização do veículo
+        SpeedData speedSensorDataVehicle = new SpeedData(carSpeed, vehicle);
         listData.add(locationSensorDataVehicle);
         listData.add(speedSensorDataVehicle);
         mobileList.add(vehicle);
 
         // Smartphone data
-        ISensor locationSensorMobile = sensorFactory.createLocationSensor();
-        IMobile smartphone = mobileFactory.createSmartphoneMobile(2);
-        smartphone.setState(ConnectedState.getInstance());
-
-        LocationData smartphoneDataLocation = new LocationData(pedestrianLat, pedestrianLng, currentTimestamp, smartphone);
-        locationSensorMobile.collectData(locationSensorMobile.getId(), smartphoneDataLocation);
-        LocationData sensorDataSmartphone = (LocationData) locationSensorMobile.readData();
-        listData.add(sensorDataSmartphone);
+        IMobile smartphone = mobileFactory.createSmartphoneMobile(ConnectedState.getInstance());
+        LocationData locationSensorDataSmartphone = new LocationData(pedestrianLat, pedestrianLng, smartphone);
+        listData.add(locationSensorDataSmartphone);
         mobileList.add(smartphone);
 
         // Traffic light data
-        IActuator locationSensorActuator = actuatorFactory.createTrafficLightActuator();
+        IActuator trafficLight = actuatorFactory.createTrafficLightActuator();
         
-        LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, currentTimestamp, locationSensorActuator, 3);
-        locationSensorActuator.collectData(TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), 3, locationTrafficLight);
-        TrafficLightData sensorDataTrafficLight = (TrafficLightData) locationSensorActuator.readData();
+        LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, trafficLight);
+        TrafficLightData sensorDataTrafficLight = new TrafficLightData(locationTrafficLight, TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), "30", trafficLight);
         listData.add(sensorDataTrafficLight);
 
         // Início da operação
@@ -119,15 +101,14 @@ public class DataServlet extends HttpServlet {
 
         for (Data data : listData) {
             dataProcessor.processData(networkManager.sendData(data, router));
-            Data sentData = dataProcessor.sendToCloud();
-            consoleOutput.append("Data Sent to Cloud: ").append(sentData).append("\n");
+            dataProcessor.sendToCloud();
+            consoleOutput.append("Data Sent to Cloud: ").append(dataProcessor.getData()).append("\n");
         }
 
         TrafficMonitor trafficMonitor = TrafficMonitor.getInstance();
         UserNotifier userNotifier = new UserNotifier(1, NotificationType.HAPTIC);
         trafficMonitor.registerObserver(userNotifier);
-        trafficMonitor.monitorTraffic(locationSensorVehicle, speedSensorDataVehicle, sensorDataTrafficLight, mobileList,
-                listData, jsonResponse);
+        trafficMonitor.monitorTraffic(jsonResponse);
 
         // Build JSON response
         jsonResponse.addProperty("trafficLightStatus", trafficLightStatus.toUpperCase());
@@ -145,13 +126,23 @@ public class DataServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ServletException | IOException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (ServletException | IOException | SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override

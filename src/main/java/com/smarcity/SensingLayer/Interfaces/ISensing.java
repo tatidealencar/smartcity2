@@ -11,4 +11,6 @@ public interface ISensing extends Serializable {
     public String getType();
 
     public int getId();
+
+    public ISensing getSensor(int id);
 }

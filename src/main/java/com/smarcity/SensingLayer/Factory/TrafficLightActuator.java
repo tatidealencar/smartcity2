@@ -1,20 +1,50 @@
 package com.smarcity.SensingLayer.Factory;
 
+import java.sql.SQLException;
+
 import com.smarcity.Enum.TrafficLightStatus;
+import com.smarcity.MiddlewareLayer.db.SensorDB;
 import com.smarcity.NetworkLayer.NetworkManager;
 import com.smarcity.SensingLayer.Interfaces.IActuator;
-import com.smarcity.SensingLayer.Model.Data;
-import com.smarcity.SensingLayer.Model.LocationData;
-import com.smarcity.SensingLayer.Model.TrafficLightData;
+import com.smarcity.SensingLayer.Interfaces.ISensing;
+
 public class TrafficLightActuator extends IActuator {
 
-	private TrafficLightData trafficLightData;
+	TrafficLightStatus status;
 	private int id;
+	
+	public TrafficLightActuator() throws SQLException {
+		this.status = TrafficLightStatus.RED;
+		SensorDB db = new SensorDB();
+		this.id = db.createSensor(this);
+	}
 
-	public void collectData(TrafficLightStatus status, int id, LocationData location) {
-		TrafficLightData dataTrafficLight = new TrafficLightData(location, status, "30", "2024-05-22T14:30:00Z", location.getOwner());
-		this.trafficLightData = dataTrafficLight;
+	public void collectData(TrafficLightStatus status, int id) {
+		this.status = status;
 		this.id = id;
+	}
+
+	public IActuator getSensor(int id) {
+		SensorDB db = new SensorDB();
+		try {
+			return (IActuator) db.readSensor(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public static TrafficLightStatus getState(String status) {
+		switch (status) {
+			case "RED":
+				return TrafficLightStatus.RED;
+			case "YELLOW":
+				return TrafficLightStatus.YELLOW;
+			case "GREEN":
+				return TrafficLightStatus.GREEN;
+			default:
+				throw new IllegalArgumentException("Unknown state: " + status);
+		}
 	}
 
 	@Override
@@ -23,22 +53,17 @@ public class TrafficLightActuator extends IActuator {
 	}
 
 	@Override
-	public Data readData() {
-		return this.trafficLightData;
-	}
-
-	@Override
 	public void sendData(NetworkManager networkManager) {
 		throw new UnsupportedOperationException("Unimplemented method 'sendData'");
-	}
-
-	public String toString() {
-		return trafficLightData.getSensorType() + ": " + trafficLightData.getData1() + " - " + trafficLightData.getData2() + " - " +  trafficLightData.getTimestamp();
 	}
 
 	@Override
 	public int getId() {
 		return this.id;
+	}
+
+	public TrafficLightStatus getStatus() {
+		return this.status;
 	}
 
 }

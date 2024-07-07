@@ -1,13 +1,12 @@
 com\smarcity\NetworkLayer\NetworkManager.class
 com\smarcity\Enum\TrafficLightStatus.class
 com\smarcity\MiddlewareLayer\db\Database.class
-com\smarcity\MiddlewareLayer\db\LocationDataDB.class
 com\smarcity\MiddlewareLayer\SecurityManager.class
 com\smarcity\SensingLayer\Factory\FactoryMobile.class
 com\smarcity\ApplicationLayer\Interfaces\IDataBase.class
+com\smarcity\MiddlewareLayer\db\SensorDB.class
 com\smarcity\SensingLayer\Interfaces\ISensing.class
 com\smarcity\SensingLayer\Model\SpeedData.class
-com\smarcity\MiddlewareLayer\db\SpeedDataDB.class
 com\smarcity\SensingLayer\Factory\FactoryActuator.class
 com\smarcity\SensingLayer\State\MobileState.class
 com\smarcity\SensingLayer\Interfaces\ISensor.class
@@ -21,7 +20,6 @@ com\smarcity\NetworkLayer\NetworkInterface.class
 com\smarcity\SensingLayer\Interfaces\IMobile.class
 com\smarcity\SensingLayer\Model\LocationData.class
 com\smarcity\BusinessLayer\AnalysisResult.class
-com\smarcity\MiddlewareLayer\db\TrafficLightDataDB.class
 com\smarcity\NetworkLayer\Router.class
 com\smarcity\SensingLayer\Factory\LocationSensor.class
 com\smarcity\ApplicationLayer\Subject.class
@@ -34,6 +32,7 @@ com\smarcity\Enum\NotificationType.class
 com\smarcity\SensingLayer\Factory\TrafficLightActuator.class
 com\smarcity\NetworkLayer\Gateway.class
 com\smarcity\SensingLayer\Model\TrafficLightData.class
+com\smarcity\MiddlewareLayer\db\DataDB.class
 com\smarcity\SensingLayer\State\ConnectedState.class
 com\smarcity\ApplicationLayer\UserNotifier.class
 com\smarcity\NetworkLayer\NetworkInterface5G.class

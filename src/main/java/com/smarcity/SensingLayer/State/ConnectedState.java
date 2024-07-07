@@ -22,4 +22,8 @@ public class ConnectedState implements MobileState {
 		System.out.println("The state changed to connected");
 	}
 
+	public String toString() {
+		return "ConnectedState";
+	}
+
 }

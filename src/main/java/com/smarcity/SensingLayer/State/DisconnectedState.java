@@ -22,4 +22,7 @@ public class DisconnectedState implements MobileState {
 		System.out.println("The state changed to disconnected");
 	}
 
+	public String toString() {
+		return "DisconnectedState";
+	}
 }

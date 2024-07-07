@@ -1,5 +1,6 @@
 package com.smarcity.ApplicationLayer;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,6 +8,8 @@ import com.google.gson.JsonObject;
 import com.smarcity.BusinessLayer.AnalysisResult;
 import com.smarcity.BusinessLayer.AnalyticsEngine;
 import com.smarcity.Enum.TrafficLightStatus;
+import com.smarcity.MiddlewareLayer.db.DataDB;
+import com.smarcity.MiddlewareLayer.db.SensorDB;
 import com.smarcity.SensingLayer.Factory.SmartphoneMobile;
 import com.smarcity.SensingLayer.Factory.Vehicle;
 import com.smarcity.SensingLayer.Interfaces.IMobile;
@@ -53,11 +56,11 @@ public class TrafficMonitor implements Subject {
 				if (owner instanceof SmartphoneMobile) {
 					locationSmartphones.add(data);
 				} else if (owner instanceof Vehicle) {
-					locationVehicle = new LocationData(data.getData1(), data.getData2(), data.getTimestamp(), owner);
+					locationVehicle = new LocationData(data.getId(), data.getData1(), data.getData2(),
+							data.getTimestamp(), owner);
 				}
 			} else if (data instanceof SpeedData) {
-				speedVehicle = new SpeedData(data.getData1(), data.getTimestamp(),
-						data.getOwner());
+				speedVehicle = new SpeedData(data.getId(), data.getData1(), data.getTimestamp(), data.getOwner());
 			} else if (data instanceof TrafficLightData) {
 				locationTrafficLight = ((TrafficLightData) data).getLocation();
 				trafficLightStatus = TrafficLightStatus.valueOf(data.getData1());
@@ -89,33 +92,42 @@ public class TrafficMonitor implements Subject {
 		return this.currentResult;
 	}
 
-	public void monitorTraffic(ISensor locationSensorVehicle, SpeedData speedSensorDataVehicle,
-                               TrafficLightData sensorDataTrafficLight, List<IMobile> mobileList, List<Data> listData, JsonObject jsonResponse) {
+	public void monitorTraffic(JsonObject jsonResponse) throws SQLException {
 
-        List<Data> activated = new ArrayList<>();
-        for (IMobile m : mobileList) {
-            if (!m.getState().equals(DisconnectedState.getInstance())) {
-                for (Data d : listData) {
-                    if (d.getOwner().getId() == m.getId() && d instanceof LocationData) {
-                        activated.add(d);
-                        continue;
-                    }
-                }
-            }
-        }
+		SensorDB sensorDB = new SensorDB();
+		DataDB dataDB = new DataDB();
+		ArrayList<ISensing> sensors = sensorDB.readSensors();
+		ArrayList<IMobile> mobileList = new ArrayList<IMobile>();
+		ArrayList<Data> listData = dataDB.readDatas();
 
-		for (Data data: listData) {
+		for (ISensing sensor : sensors) {
+			if (sensor.getType().equals("SmartphoneMobile") || sensor.getType().equals("Vehicle")) {
+				mobileList.add((IMobile) sensor);
+			}
+		}
+
+		List<Data> activated = new ArrayList<>();
+		for (IMobile m : mobileList) {
+			if (!m.getState().equals(DisconnectedState.getInstance())) {
+				for (Data d : listData) {
+					if (d.getOwner().getId() == m.getId() && d instanceof LocationData) {
+						activated.add(d);
+						continue;
+					}
+				}
+			}
+		}
+
+		for (Data data : listData) {
 			if (data instanceof SpeedData || data instanceof TrafficLightData) {
 				activated.add(data);
 			}
 		}
 
-        analyzeTrafficData(activated);
+		analyzeTrafficData(activated);
 
-        /*if (this.currentResult.isCollisionDetected() != this.previousResult.isCollisionDetected()) {*/
-			if (this.currentResult.isCollisionDetected() == true) {
-				notifyObservers(jsonResponse);
-			}
-        //}
-    }
+		if (this.currentResult.isCollisionDetected() == true) {
+			notifyObservers(jsonResponse);
+		}
+	}
 }

@@ -1,28 +1,37 @@
 package com.smarcity.SensingLayer.Factory;
 
+import java.sql.SQLException;
+
+import com.smarcity.MiddlewareLayer.db.SensorDB;
 import com.smarcity.NetworkLayer.NetworkManager;
 import com.smarcity.SensingLayer.Interfaces.ISensor;
-import com.smarcity.SensingLayer.Model.Data;
-import com.smarcity.SensingLayer.Model.LocationData;
 
 class LocationSensor extends ISensor {
 
-	private LocationData location;
 	private int id;
 
-	public void collectData(int id, Data dataLocation) {
-		this.location = (LocationData) dataLocation;
+	public LocationSensor(int id) {
 		this.id = id;
+	}
+	
+	public LocationSensor() throws SQLException {
+		SensorDB db = new SensorDB();
+		this.id = db.createSensor(this);
+	}
+
+	public ISensor getSensor(int id) {
+		SensorDB db = new SensorDB();
+		try {
+			return (ISensor) db.readSensor(id);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
 	public String getType() {
 		return "LocationSensor";
-	}
-
-	@Override
-	public LocationData readData() {
-		return this.location;
 	}
 
 	@Override
@@ -33,11 +42,6 @@ class LocationSensor extends ISensor {
 	@Override
 	public int getId() {
 		return this.id;
-	}
-
-	public String toString() {
-		return this.location.getSensorType() + ": " + location.getData1() + " - " + location.getData2() + " - "
-				+ location.getTimestamp();
 	}
 
 }

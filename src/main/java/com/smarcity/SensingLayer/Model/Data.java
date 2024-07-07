@@ -16,12 +16,20 @@ public class Data implements Serializable {
     private ISensing owner;
     private String sensorType;
 
-    public Data(String data1, String data2, String timestamp, ISensing owner, String sensorType) {
+    public Data(String data1, String data2, ISensing owner, String sensorType) {
+        this.data1 = data1;
+        this.data2 = data2;
+        this.owner = owner;
+        this.sensorType = sensorType;
+    }
+
+    public Data(int id, String data1, String data2, String timestamp, ISensing owner, String sensorType) {
         this.data1 = data1;
         this.data2 = data2;
         this.timestamp = timestamp;
         this.owner = owner;
         this.sensorType = sensorType;
+        this.id = id;
     }
 
     public String getData1() {
