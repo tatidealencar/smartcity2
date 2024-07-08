@@ -154,9 +154,10 @@
 
                         if (data.userNotification) {
                             if (Object.keys(data.userNotification).length > 0) {
-                                const notification = JSON.parse(data.userNotification);
+                                const userNotification = JSON.parse(data.userNotification);
+                                const vehicleNotification = JSON.parse(data.vehicleNotification);
 
-                                collisionRiskNotification(notification);
+                                collisionRiskNotification(userNotification, vehicleNotification);
 
                             } else {
                                 noColisionRiskNotification();
@@ -192,31 +193,31 @@
                 });
         });
 
-        function collisionRiskNotification(notification) {
+        function collisionRiskNotification(userNotification, vehicleNotification) {
 
-            const smartphoneNotification = document.getElementById(
+            const smartphone = document.getElementById(
                 'smartphone-notification');
 
-            const vehicleNotification = document.getElementById('vehicle-notification');
-            if (smartphoneNotification.classList.contains('alert-info')) {
-                smartphoneNotification.classList.remove('alert-info');
+            const vehicle = document.getElementById('vehicle-notification');
+            if (smartphone.classList.contains('alert-info')) {
+                smartphone.classList.remove('alert-info');
             }
-            if (smartphoneNotification.classList.contains('alert-success')) {
-                smartphoneNotification.classList.remove('alert-success');
+            if (smartphone.classList.contains('alert-success')) {
+                smartphone.classList.remove('alert-success');
             }
-            smartphoneNotification.classList.add('alert-danger');
+            smartphone.classList.add('alert-danger');
 
-            smartphoneNotification.textContent = notification.message;
+            smartphone.textContent = userNotification.notificationType + ": " + userNotification.message;
 
-            if (vehicleNotification.classList.contains('alert-info')) {
-                vehicleNotification.classList.remove('alert-info');
+            if (vehicle.classList.contains('alert-info')) {
+                vehicle.classList.remove('alert-info');
             }
-            if (vehicleNotification.classList.contains('alert-success')) {
-                vehicleNotification.classList.remove('alert-success');
+            if (vehicle.classList.contains('alert-success')) {
+                vehicle.classList.remove('alert-success');
             }
-            vehicleNotification.classList.add('alert-danger');
+            vehicle.classList.add('alert-danger');
 
-            vehicleNotification.textContent = notification.message;
+            vehicle.textContent = vehicleNotification.notificationType + ": " + vehicleNotification.message;
         }
 
         function noColisionRiskNotification() {

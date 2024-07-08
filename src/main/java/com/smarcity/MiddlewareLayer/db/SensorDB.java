@@ -26,38 +26,45 @@ public class SensorDB {
     }
 
     public int createSensor(ISensing sensor) throws SQLException {
-        String query = "";
+        
+        int sensorTeste = this.readSensor(sensor.getType());
 
-        if (sensor instanceof ISensor) {
-            query = "INSERT INTO sensor (type) VALUES (?)";
-        } else if (sensor instanceof IMobile) {
-            query = "INSERT INTO sensor (type, state) VALUES (?, ?)";
-        } else if (sensor instanceof IActuator) {
-            query = "INSERT INTO sensor (type, traffic_light_status) VALUES (?, ?)";
-        }
+        if (sensorTeste == 0) {
 
-        try (PreparedStatement stmt = db.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
-            stmt.setString(1, sensor.getType());
+            String query = "";
 
-            if (sensor instanceof IMobile) {
-                IMobile mobile = (IMobile) sensor;
-                stmt.setString(2, mobile.getState().toString());
+            if (sensor instanceof ISensor) {
+                query = "INSERT INTO sensor (type) VALUES (?)";
+            } else if (sensor instanceof IMobile) {
+                query = "INSERT INTO sensor (type, state) VALUES (?, ?)";
             } else if (sensor instanceof IActuator) {
-                TrafficLightActuator actuactor = (TrafficLightActuator) sensor;
-                stmt.setString(2, actuactor.getStatus().toString());
+                query = "INSERT INTO sensor (type, traffic_light_status) VALUES (?, ?)";
             }
 
-            stmt.executeUpdate();
+            try (PreparedStatement stmt = db.getConnection().prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+                stmt.setString(1, sensor.getType());
 
-            try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    int insertedId = generatedKeys.getInt(1);
-                    return insertedId;
-                } else {
-                    throw new SQLException("Creating locationdata failed, no ID obtained.");
+                if (sensor instanceof IMobile) {
+                    IMobile mobile = (IMobile) sensor;
+                    stmt.setString(2, mobile.getState().toString());
+                } else if (sensor instanceof IActuator) {
+                    TrafficLightActuator actuactor = (TrafficLightActuator) sensor;
+                    stmt.setString(2, actuactor.getStatus().toString());
+                }
+
+                stmt.executeUpdate();
+
+                try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        int insertedId = generatedKeys.getInt(1);
+                        return insertedId;
+                    } else {
+                        throw new SQLException("Creating locationdata failed, no ID obtained.");
+                    }
                 }
             }
         }
+        return sensorTeste;
     }
 
     public ISensing readSensor(int id) throws SQLException {
@@ -96,7 +103,7 @@ public class SensorDB {
                         return sensor;
                     }
                 } else {
-                    return null; 
+                    return null;
                 }
             }
         }
@@ -105,9 +112,9 @@ public class SensorDB {
 
     public ArrayList<ISensing> readSensors() throws SQLException {
         String query = "SELECT * FROM sensor";
-    
+
         ArrayList<ISensing> list = new ArrayList<>();
-    
+
         try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
@@ -121,7 +128,8 @@ public class SensorDB {
                         }
                         sensor.getSensor(rs.getInt("id"));
                         list.add(sensor);
-                    } else if (rs.getString("type").equals("SmartphoneMobile") || rs.getString("type").equals("Vehicle")) {
+                    } else if (rs.getString("type").equals("SmartphoneMobile")
+                            || rs.getString("type").equals("Vehicle")) {
                         FactoryMobile factory = new FactoryMobile();
                         IMobile sensor = null;
                         if (rs.getString("type").equals("SmartphoneMobile")) {
@@ -134,12 +142,28 @@ public class SensorDB {
                     } else if (rs.getString("type").equals("TrafficLightActuator")) {
                         FactoryActuator factory = new FactoryActuator();
                         IActuator sensor = factory.createTrafficLightActuator();
-                        sensor.collectData(TrafficLightStatus.valueOf(rs.getString("traffic_light_status")), rs.getInt("id"));
+                        sensor.collectData(TrafficLightStatus.valueOf(rs.getString("traffic_light_status")),
+                                rs.getInt("id"));
                         list.add(sensor);
                     }
                 }
             }
         }
         return list;
+    }
+
+    public int readSensor(String type) throws SQLException {
+        String query = "SELECT * FROM sensor WHERE type = ?";
+        try (PreparedStatement stmt = db.getConnection().prepareStatement(query)) {
+            stmt.setString(1, type);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+
+                    return rs.getInt("id");
+                } else {
+                    return 0;
+                }
+            }
+        }
     }
 }
