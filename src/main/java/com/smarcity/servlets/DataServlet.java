@@ -41,14 +41,18 @@ public class DataServlet extends HttpServlet {
         StringBuilder consoleOutput = new StringBuilder();
         JsonObject jsonResponse = new JsonObject();
 
-        /*String trafficLightLat = request.getParameter("trafficLightLat");
-        String trafficLightLng = request.getParameter("trafficLightLng");
-        String trafficLightStatus = request.getParameter("trafficLightStatus");
-        String pedestrianLat = request.getParameter("pedestrianLat");
-        String pedestrianLng = request.getParameter("pedestrianLng");
-        String carLat = request.getParameter("carLat");
-        String carLng = request.getParameter("carLng");
-        String carSpeed = request.getParameter("carSpeed");*/
+        /* 
+         String trafficLightLat = request.getParameter("trafficLightLat");
+         String trafficLightLng = request.getParameter("trafficLightLng");
+         String trafficLightStatus = request.getParameter("trafficLightStatus");
+         String pedestrianLat = request.getParameter("pedestrianLat");
+         String pedestrianLng = request.getParameter("pedestrianLng");
+         String carLat = request.getParameter("carLat");
+         String carLng = request.getParameter("carLng");
+         String carSpeed = request.getParameter("carSpeed");
+         */
+
+        // 1. Cenário de Luz Vermelha com Risco de Colisão Imediato
 
         String trafficLightLat = "-23.5610";
         String trafficLightLng = "-46.6562 ";
@@ -58,6 +62,30 @@ public class DataServlet extends HttpServlet {
         String carLat = "-23.5610";
         String carLng = "-46.6560";
         String carSpeed = "100";
+
+        // 2. Cenário de Emergência
+        /*
+         String trafficLightLat = "-23.5620";
+         String trafficLightLng = "-46.6570";
+         String trafficLightStatus = "GREEN";
+         String pedestrianLat = "-23.5620";
+         String pedestrianLng = "-46.6570";
+         String carLat = "-23.5620";
+         String carLng = "-46.6570";
+         String carSpeed = "100";
+         */
+
+        // 3. Cenário de Colisão a 30 Metros
+        /*
+         String trafficLightLat = "-23.5627";
+         String trafficLightLng = "-46.6575";
+         String trafficLightStatus = "RED";
+         String pedestrianLat = "-23.5627";
+         String pedestrianLng = "-46.6575";
+         String carLat = "-23.5625";
+         String carLng = "-46.6575";
+         String carSpeed = "100";
+         */
 
         NetworkInterface5G networkInterface5G = new NetworkInterface5G("5G", 500, "Tim", 70);
         NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance(consoleOutput);
@@ -70,8 +98,8 @@ public class DataServlet extends HttpServlet {
         List<IMobile> mobileList = new ArrayList<>();
 
         // Vehicle data
-        IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance()); //sensor do veículo
-        LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle); //localização do veículo
+        IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance()); // sensor do veículo
+        LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle); // localização do veículo
         SpeedData speedSensorDataVehicle = new SpeedData(carSpeed, vehicle);
         listData.add(locationSensorDataVehicle);
         listData.add(speedSensorDataVehicle);
@@ -85,9 +113,10 @@ public class DataServlet extends HttpServlet {
 
         // Traffic light data
         IActuator trafficLight = actuatorFactory.createTrafficLightActuator();
-        
+
         LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, trafficLight);
-        TrafficLightData sensorDataTrafficLight = new TrafficLightData(locationTrafficLight, TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), "30", trafficLight);
+        TrafficLightData sensorDataTrafficLight = new TrafficLightData(locationTrafficLight,
+                TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), "30", trafficLight);
         listData.add(sensorDataTrafficLight);
 
         // Início da operação
@@ -119,7 +148,7 @@ public class DataServlet extends HttpServlet {
             out.print(jsonResponse.toString());
         }
 
-        //networkManager.disconnect();
+        // networkManager.disconnect();
     }
 
     @Override
