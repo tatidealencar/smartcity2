@@ -31,6 +31,7 @@ public class NetworkManager implements INetworkManager {
 	}
 
 	public void connect( ) {
+		consoleOutput.append("Camada de rede:");
 		consoleOutput.append("Connecting using ").append(network.getProtocol()).append(" with bandwidth "). append(network.getBandwidth());
 	}
 

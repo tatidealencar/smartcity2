@@ -81,6 +81,12 @@ public class TrafficMonitor implements Subject {
 		this.observers.remove(o);
 	}
 
+	public void removeObservers() {
+		if (this.observers != null) {
+			this.observers.clear();
+		}
+	}
+
 	public void notifyObservers(JsonObject jsonResponse) {
 		for (Observer o : this.observers) {
 			o.notificar(this, jsonResponse);
