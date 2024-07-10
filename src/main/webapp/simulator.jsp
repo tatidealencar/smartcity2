@@ -67,6 +67,66 @@
                 </div>
             </div>
 
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="test-options" class="form-label">Escolha uma opção de teste:</label>
+                    <div id="test-options">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="testOption" id="car-test" value="car">
+                            <label class="form-check-label" for="car-test">
+                                Testar carro
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="testOption" id="pedestrian-test"
+                                value="pedestrian">
+                            <label class="form-check-label" for="pedestrian-test">
+                                Testar pedestre
+                            </label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="testOption" id="both-test" value="both">
+                            <label class="form-check-label" for="both-test">
+                                Testar ambos
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="risk-options" class="form-label">Escolha a condição de risco:</label>
+                    <div id="risk-options">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="riskOption" id="cr-test" value="CR">
+                            <label class="form-check-label" for="cr-test">
+                                Risco de colisão (CR): Frenagem imediata necessária para evitar uma colisão potencial
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="riskOption" id="ibn-test" value="IBN">
+                            <label class="form-check-label" for="ibn-test">
+                                Frenagem imediata necessária (IBN): Risco de colisão devido ao semáforo vermelho e
+                                proximidade
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="riskOption" id="en-test" value="EN">
+                            <label class="form-check-label" for="en-test">
+                                Emergência necessária (EN): Veículo e pedestre na mesma posição
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="riskOption" id="ibnc-test" value="IBNC">
+                            <label class="form-check-label" for="ibnc-test">
+                                Frenagem imediata necessária (IBNC): Veículo muito próximo para parar com segurança
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <button type="button" id="simulate-button" class="btn btn-primary">Simular</button>
         </form>
 
@@ -90,6 +150,15 @@
                 <div class="light yellow" id="traffic-light-yellow"></div>
                 <div class="light green" id="traffic-light-green"></div>
             </div>
+            <audio id="CR_driver" src="audio/driver/CR.mp3" type="audio/mp3"></audio>
+            <audio id="EN_driver" src="audio/driver/EN.mp3" type="audio/mp3"></audio>
+            <audio id="IBN_driver" src="audio/driver/IBN.mp3" type="audio/mp3"></audio>
+            <audio id="IBNC_driver" src="audio/driver/IBNC.mp3" type="audio/mp3"></audio>
+            <audio id="CR_pedestrian" src="audio/pedestrian/CR.mp3" type="audio/mp3"></audio>
+            <audio id="EN_pedestrian" src="audio/pedestrian/EN.mp3" type="audio/mp3"></audio>
+            <audio id="IBN_pedestrian" src="audio/pedestrian/IBN.mp3" type="audio/mp3"></audio>
+            <audio id="IBNC_pedestrian" src="audio/pedestrian/IBNC.mp3" type="audio/mp3"></audio>
+
         </div>
 
         <div class="mt-3">
@@ -100,6 +169,38 @@
         </div>
     </div>
     <script>
+        var CR_driver = document.getElementById('CR_driver');
+        CR_driver.volume = 1.0;
+        CR_driver.muted = false;
+
+        var EN_driver = document.getElementById('EN_driver');
+        EN_driver.volume = 1.0;
+        EN_driver.muted = false;
+
+        var IBN_driver = document.getElementById('IBN_driver');
+        IBN_driver.volume = 1.0;
+        IBN_driver.muted = false;
+
+        var IBNC_driver = document.getElementById('IBNC_driver');
+        IBNC_driver.volume = 1.0;
+        IBNC_driver.muted = false;
+
+        var CR_pedestrian = document.getElementById('CR_pedestrian');
+        CR_pedestrian.volume = 1.0;
+        CR_pedestrian.muted = false;
+
+        var EN_pedestrian = document.getElementById('EN_pedestrian');
+        EN_pedestrian.volume = 1.0;
+        EN_pedestrian.muted = false;
+
+        var IBN_pedestrian = document.getElementById('IBN_pedestrian');
+        IBN_pedestrian.volume = 1.0;
+        IBN_pedestrian.muted = false;
+
+        var IBNC_pedestrian = document.getElementById('IBNC_pedestrian');
+        IBNC_pedestrian.volume = 1.0;
+        IBNC_pedestrian.muted = false;
+
         document.getElementById('simulate-button').addEventListener('click', function () {
             const form = document.getElementById('simulation-form');
             const formData = new FormData(form);
@@ -121,7 +222,7 @@
                 })
                 .then(data => {
 
-                console.log(data);
+                    console.log(data);
                     // Update traffic light status
                     document.getElementById('traffic-light-red').style.backgroundColor = data
                         .trafficLightStatus === 'RED' ? 'red' : 'grey';
@@ -152,15 +253,25 @@
                                 'd-none');
                         }
 
-                        if (data.userNotification) {
-                            if (Object.keys(data.userNotification).length > 0) {
+                        if (data.userNotification || data.vehicleNotification) {
+                            if (data.userNotification && data.vehicleNotification) {
                                 const userNotification = JSON.parse(data.userNotification);
                                 const vehicleNotification = JSON.parse(data.vehicleNotification);
-
                                 collisionRiskNotification(userNotification, vehicleNotification);
-
                             } else {
-                                noColisionRiskNotification();
+                                if (data.userNotification) {
+                                    if (Object.keys(data.userNotification).length > 0) {
+                                        const userNotification = JSON.parse(data.userNotification);
+                                        collisionRiskNotificationPedestrian(userNotification);
+                                    }
+                                }
+                                if (data.vehicleNotification) {
+                                    if (Object.keys(data.vehicleNotification).length > 0) {
+                                        const vehicleNotification = JSON.parse(data.vehicleNotification);
+                                        collisionRiskNotificationDriver(vehicleNotification);
+
+                                    }
+                                }
                             }
                         } else {
                             noColisionRiskNotification();
@@ -218,6 +329,73 @@
             vehicle.classList.add('alert-danger');
 
             vehicle.textContent = vehicleNotification.notificationType + ": " + vehicleNotification.message;
+        }
+
+        function collisionRiskNotificationDriver(vehicleNotification) {
+
+            const vehicle = document.getElementById('vehicle-notification');
+
+            if (vehicle.classList.contains('alert-info')) {
+                vehicle.classList.remove('alert-info');
+            }
+            if (vehicle.classList.contains('alert-success')) {
+                vehicle.classList.remove('alert-success');
+            }
+            vehicle.classList.add('alert-danger');
+
+            vehicle.textContent = vehicleNotification.notificationType + ": " + vehicleNotification.message;
+
+            switch (vehicleNotification.detail) {
+                case 'CR':
+                    document.getElementById('CR_driver').play();
+                    break;
+                case 'IBN':
+                    document.getElementById('IBN_driver').play();
+                    break;
+                case 'EN':
+                    document.getElementById('EN_driver').play();
+                    break;
+                case 'IBNC':
+                    document.getElementById('IBNC_driver').play();
+                    break;
+                default:
+                    console.log('Unknown condition');
+                    break;
+            }
+        }
+
+        function collisionRiskNotificationPedestrian(userNotification) {
+
+            const smartphone = document.getElementById(
+                'smartphone-notification');
+
+            if (smartphone.classList.contains('alert-info')) {
+                smartphone.classList.remove('alert-info');
+            }
+            if (smartphone.classList.contains('alert-success')) {
+                smartphone.classList.remove('alert-success');
+            }
+            smartphone.classList.add('alert-danger');
+
+            smartphone.textContent = userNotification.notificationType + ": " + userNotification.message;
+
+            switch (userNotification.detail) {
+                case 'CR':
+                    document.getElementById('CR_pedestrian').play();
+                    break;
+                case 'IBN':
+                    document.getElementById('IBN_pedestrian').play();
+                    break;
+                case 'EN':
+                    document.getElementById('EN_pedestrian').play();
+                    break;
+                case 'IBNC':
+                    document.getElementById('IBNC_pedestrian').play();
+                    break;
+                default:
+                    console.log('Unknown condition');
+                    break;
+            }
         }
 
         function noColisionRiskNotification() {

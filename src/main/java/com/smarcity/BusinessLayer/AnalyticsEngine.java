@@ -35,19 +35,19 @@ public class AnalyticsEngine {
                 // Nova lógica para detecção de necessidade de frenagem imediata
                 if (immediateBrakingNeeded && vehicleSpeed > 0) {
                     result.setCollisionDetected(true);
-                    result.setDetails("Collision risk: Immediate braking required to avoid potential collision.");
+                    result.setDetails("CR");
                 }
 
                 if (distanceToTrafficLight <= 200 && isPedestrianCrossing) {
                     if (trafficLightStatus == TrafficLightStatus.RED && immediateBrakingNeeded) {
                         result.setCollisionDetected(true);
-                        result.setDetails("Immediate braking needed: Collision risk due to red light and close proximity.");
+                        result.setDetails("IBN");
                     } else if (vehicleLon == smartphoneLon) {
                         result.setCollisionDetected(true);
-                        result.setDetails("Emergency needed: Vehicle and pedestrian at the same position.");
+                        result.setDetails("EN");
                     } else if (distanceToTrafficLight <= 30 && immediateBrakingNeeded) {
                         result.setCollisionDetected(true);
-                        result.setDetails("Immediate braking needed: Vehicle too close to stop safely.");
+                        result.setDetails("IBNC");
                     }
                 }
             }

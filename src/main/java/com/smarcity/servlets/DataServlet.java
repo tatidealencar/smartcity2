@@ -15,7 +15,6 @@ import com.google.gson.JsonObject;
 import com.smarcity.ApplicationLayer.TrafficMonitor;
 import com.smarcity.ApplicationLayer.UserNotifier;
 import com.smarcity.ApplicationLayer.VehicleNotifier;
-import com.smarcity.Enum.NotificationType;
 import com.smarcity.Enum.TrafficLightStatus;
 import com.smarcity.MiddlewareLayer.DataProcessor;
 import com.smarcity.NetworkLayer.NetworkInterface5G;
@@ -41,111 +40,164 @@ public class DataServlet extends HttpServlet {
         StringBuilder consoleOutput = new StringBuilder();
         JsonObject jsonResponse = new JsonObject();
 
-        /* 
-         String trafficLightLat = request.getParameter("trafficLightLat");
-         String trafficLightLng = request.getParameter("trafficLightLng");
-         String trafficLightStatus = request.getParameter("trafficLightStatus");
-         String pedestrianLat = request.getParameter("pedestrianLat");
-         String pedestrianLng = request.getParameter("pedestrianLng");
-         String carLat = request.getParameter("carLat");
-         String carLng = request.getParameter("carLng");
-         String carSpeed = request.getParameter("carSpeed");
-         */
+        consoleOutput.append("Camada de sensing:");
+        consoleOutput.append("Coletando dados dos sensores...");
 
-        // 1. Cenário de Luz Vermelha com Risco de Colisão Imediato
+        String trafficLightLat;
+        String trafficLightLng;
+        String trafficLightStatus;
+        String pedestrianLat;
+        String pedestrianLng;
+        String carLat;
+        String carLng;
+        String carSpeed;
 
-        String trafficLightLat = "-23.5610";
-        String trafficLightLng = "-46.6562 ";
-        String trafficLightStatus = "RED";
-        String pedestrianLat = "-23.5610";
-        String pedestrianLng = "-46.6562";
-        String carLat = "-23.5610";
-        String carLng = "-46.6560";
-        String carSpeed = "100";
-
-        // 2. Cenário de Emergência
-        /*
-         String trafficLightLat = "-23.5620";
-         String trafficLightLng = "-46.6570";
-         String trafficLightStatus = "GREEN";
-         String pedestrianLat = "-23.5620";
-         String pedestrianLng = "-46.6570";
-         String carLat = "-23.5620";
-         String carLng = "-46.6570";
-         String carSpeed = "100";
-         */
-
-        // 3. Cenário de Colisão a 30 Metros
-        /*
-         String trafficLightLat = "-23.5627";
-         String trafficLightLng = "-46.6575";
-         String trafficLightStatus = "RED";
-         String pedestrianLat = "-23.5627";
-         String pedestrianLng = "-46.6575";
-         String carLat = "-23.5625";
-         String carLng = "-46.6575";
-         String carSpeed = "100";
-         */
-
-        NetworkInterface5G networkInterface5G = new NetworkInterface5G("5G", 500, "Tim", 70);
-        NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance(consoleOutput);
-        networkManager.setNetworkInterface(networkInterface5G);
-        Router router = new Router(1024);
-
-        FactoryMobile mobileFactory = new FactoryMobile();
-        FactoryActuator actuatorFactory = new FactoryActuator();
-        List<Data> listData = new ArrayList<>();
-        List<IMobile> mobileList = new ArrayList<>();
-
-        // Vehicle data
-        IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance()); // sensor do veículo
-        LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle); // localização do veículo
-        SpeedData speedSensorDataVehicle = new SpeedData(carSpeed, vehicle);
-        listData.add(locationSensorDataVehicle);
-        listData.add(speedSensorDataVehicle);
-        mobileList.add(vehicle);
-
-        // Smartphone data
-        IMobile smartphone = mobileFactory.createSmartphoneMobile(ConnectedState.getInstance());
-        LocationData locationSensorDataSmartphone = new LocationData(pedestrianLat, pedestrianLng, smartphone);
-        listData.add(locationSensorDataSmartphone);
-        mobileList.add(smartphone);
-
-        // Traffic light data
-        IActuator trafficLight = actuatorFactory.createTrafficLightActuator();
-
-        LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, trafficLight);
-        TrafficLightData sensorDataTrafficLight = new TrafficLightData(locationTrafficLight,
-                TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), "30", trafficLight);
-        listData.add(sensorDataTrafficLight);
-
-        // Início da operação
-        networkManager.connect();
-
-        String apiEndpoint = "http://localhost:8080/api/data";
-        DataProcessor dataProcessor = new DataProcessor(apiEndpoint);
-
-        for (Data data : listData) {
-            dataProcessor.processData(networkManager.sendData(data, router));
-            dataProcessor.sendToCloud();
-            consoleOutput.append("Data Sent to Cloud: ").append(dataProcessor.getData()).append("\n");
+        if (request.getParameter("riskOption") != null) {
+            switch (request.getParameter("riskOption")) {
+                case "CR":
+                    trafficLightStatus = "GREEN";
+                    trafficLightLat = "-23.5610";
+                    trafficLightLng = "-46.6562";
+                    pedestrianLat = "-23.5610";
+                    pedestrianLng = "-46.6562";
+                    carLat = "-23.5610";
+                    carLng = "-46.6561";
+                    carSpeed = "30";
+                    break;
+                case "IBN":
+                    trafficLightStatus = "RED";
+                    trafficLightLat = "-23.5627";
+                    trafficLightLng = "-46.6575";
+                    pedestrianLat = "-23.5627";
+                    pedestrianLng = "-46.6575";
+                    carLat = "-23.5628";
+                    carLng = "-46.6575";
+                    carSpeed = "15";
+                    break;
+                case "EN":
+                    trafficLightStatus = "GREEN";
+                    trafficLightLat = "-23.5620";
+                    trafficLightLng = "-46.6570";
+                    pedestrianLat = "-23.5620";
+                    pedestrianLng = "-46.6570";
+                    carLat = "-23.5620";
+                    carLng = "-46.6570";
+                    carSpeed = "10";
+                    break;
+                case "IBNC":
+                    trafficLightStatus = "GREEN";
+                    trafficLightLat = "-23.5630";
+                    trafficLightLng = "-46.6580";
+                    pedestrianLat = "-23.5630";
+                    pedestrianLng = "-46.6580";
+                    carLat = "-23.5630";
+                    carLng = "-46.6582";
+                    carSpeed = "120";
+                    break;
+                default:
+                    trafficLightLat = request.getParameter("trafficLightLat");
+                    trafficLightLng = request.getParameter("trafficLightLng");
+                    trafficLightStatus = request.getParameter("trafficLightStatus");
+                    pedestrianLat = request.getParameter("pedestrianLat");
+                    pedestrianLng = request.getParameter("pedestrianLng");
+                    carLat = request.getParameter("carLat");
+                    carLng = request.getParameter("carLng");
+                    carSpeed = request.getParameter("carSpeed");
+                    break;
+            }
+        } else {
+            trafficLightLat = request.getParameter("trafficLightLat");
+            trafficLightLng = request.getParameter("trafficLightLng");
+            trafficLightStatus = request.getParameter("trafficLightStatus");
+            pedestrianLat = request.getParameter("pedestrianLat");
+            pedestrianLng = request.getParameter("pedestrianLng");
+            carLat = request.getParameter("carLat");
+            carLng = request.getParameter("carLng");
+            carSpeed = request.getParameter("carSpeed");
         }
 
-        TrafficMonitor trafficMonitor = TrafficMonitor.getInstance();
-        UserNotifier userNotifier = new UserNotifier();
-        trafficMonitor.registerObserver(userNotifier);
-        VehicleNotifier vehicleNotifier = new VehicleNotifier();
-        trafficMonitor.registerObserver(vehicleNotifier);
-        trafficMonitor.monitorTraffic(jsonResponse);
+        if (!trafficLightLat.isEmpty() && !trafficLightLng.isEmpty() && !trafficLightStatus.isEmpty()
+                && !pedestrianLat.isEmpty()
+                && !pedestrianLng.isEmpty() && !carLat.isEmpty() && !carLng.isEmpty()
+                && !carSpeed.isEmpty()) {
 
-        // Build JSON response
-        jsonResponse.addProperty("trafficLightStatus", trafficLightStatus.toUpperCase());
-        jsonResponse.addProperty("collisionRisk", trafficMonitor.getResult().isCollisionDetected());
-        jsonResponse.addProperty("consoleOutput", consoleOutput.toString());
-        jsonResponse.addProperty("processedData", consoleOutput.toString());
+            NetworkInterface5G networkInterface5G = new NetworkInterface5G("5G", 500, "Tim", 70);
+            NetworkManager networkManager = (NetworkManager) NetworkManager.getInstance(consoleOutput);
+            networkManager.setNetworkInterface(networkInterface5G);
+            Router router = new Router(1024);
 
-        try (PrintWriter out = response.getWriter()) {
-            out.print(jsonResponse.toString());
+            FactoryMobile mobileFactory = new FactoryMobile();
+            FactoryActuator actuatorFactory = new FactoryActuator();
+            List<Data> listData = new ArrayList<>();
+            List<IMobile> mobileList = new ArrayList<>();
+
+            // Vehicle data
+            IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance()); // sensor do veículo
+            LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle); // localização do
+                                                                                                // veículo
+            SpeedData speedSensorDataVehicle = new SpeedData(carSpeed, vehicle);
+            listData.add(locationSensorDataVehicle);
+            listData.add(speedSensorDataVehicle);
+            mobileList.add(vehicle);
+
+            // Smartphone data
+            IMobile smartphone = mobileFactory.createSmartphoneMobile(ConnectedState.getInstance());
+            LocationData locationSensorDataSmartphone = new LocationData(pedestrianLat, pedestrianLng, smartphone);
+            listData.add(locationSensorDataSmartphone);
+            mobileList.add(smartphone);
+
+            // Traffic light data
+            IActuator trafficLight = actuatorFactory.createTrafficLightActuator();
+
+            LocationData locationTrafficLight = new LocationData(trafficLightLat, trafficLightLng, trafficLight);
+            TrafficLightData sensorDataTrafficLight = new TrafficLightData(locationTrafficLight,
+                    TrafficLightStatus.valueOf(trafficLightStatus.toUpperCase()), "30", trafficLight);
+            listData.add(sensorDataTrafficLight);
+
+            // Início da operação
+            networkManager.connect();
+
+            String apiEndpoint = "http://localhost:8080/api/data";
+            DataProcessor dataProcessor = new DataProcessor(apiEndpoint);
+
+            for (Data data : listData) {
+                dataProcessor.processData(networkManager.sendData(data, router));
+                dataProcessor.sendToCloud();
+                consoleOutput.append("Data Sent to Cloud: ").append(dataProcessor.getData()).append("\n");
+            }
+
+            TrafficMonitor trafficMonitor = TrafficMonitor.getInstance();
+            trafficMonitor.removeObservers();
+            if (request.getParameter("testOption") != null) {
+                if (request.getParameter("testOption").equals("car")) {
+                    VehicleNotifier vehicleNotifier = new VehicleNotifier();
+                    trafficMonitor.registerObserver(vehicleNotifier);
+                } else if (request.getParameter("testOption").equals("pedestrian")) {
+                    UserNotifier userNotifier = new UserNotifier();
+                    trafficMonitor.registerObserver(userNotifier);
+                } else {
+                    UserNotifier userNotifier = new UserNotifier();
+                    trafficMonitor.registerObserver(userNotifier);
+                    VehicleNotifier vehicleNotifier = new VehicleNotifier();
+                    trafficMonitor.registerObserver(vehicleNotifier);
+                }
+            } else {
+                UserNotifier userNotifier = new UserNotifier();
+                trafficMonitor.registerObserver(userNotifier);
+                VehicleNotifier vehicleNotifier = new VehicleNotifier();
+                trafficMonitor.registerObserver(vehicleNotifier);
+            }
+            trafficMonitor.monitorTraffic(jsonResponse);
+
+            // Build JSON response
+            jsonResponse.addProperty("trafficLightStatus", trafficLightStatus.toUpperCase());
+            jsonResponse.addProperty("collisionRisk", trafficMonitor.getResult().isCollisionDetected());
+            jsonResponse.addProperty("consoleOutput", consoleOutput.toString());
+            jsonResponse.addProperty("processedData", consoleOutput.toString());
+
+            try (PrintWriter out = response.getWriter()) {
+                out.print(jsonResponse.toString());
+            }
         }
 
         // networkManager.disconnect();
