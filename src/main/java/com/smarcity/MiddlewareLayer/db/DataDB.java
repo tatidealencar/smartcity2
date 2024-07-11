@@ -78,7 +78,7 @@ public class DataDB {
                         return trafficlight;
                     }
                 } else {
-                    return null; // Or throw an exception if preferred
+                    return null;
                 }
             }
         }
@@ -122,7 +122,7 @@ public class DataDB {
                 }
             }
         }
-        return list; // Return the list, empty if no data was found
+        return list;
     }
 
 }

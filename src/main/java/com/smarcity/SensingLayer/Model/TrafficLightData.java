@@ -23,6 +23,6 @@ public class TrafficLightData extends Data {
     }
 
     public String toString() {
-        return super.getSensorType() + ": " + location.getData1() + " - " + location.getData2() + " - " + super.getData1() + " - " + super.getData2() + " - " + super.getTimestamp();
+        return super.getSensorType() + ": " + location.getData1() + " - " + location.getData2() + " - " + super.getData1() + " - " + super.getData2();
     }
 }

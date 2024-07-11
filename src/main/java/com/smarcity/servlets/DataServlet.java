@@ -40,8 +40,8 @@ public class DataServlet extends HttpServlet {
         StringBuilder consoleOutput = new StringBuilder();
         JsonObject jsonResponse = new JsonObject();
 
-        consoleOutput.append("Camada de sensing:");
-        consoleOutput.append("Coletando dados dos sensores...");
+        consoleOutput.append("Camada de sensing: \n");
+        consoleOutput.append("Coletando dados dos sensores...\n");
 
         String trafficLightLat;
         String trafficLightLng;
@@ -132,9 +132,9 @@ public class DataServlet extends HttpServlet {
             List<IMobile> mobileList = new ArrayList<>();
 
             // Vehicle data
-            IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance()); // sensor do veículo
-            LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle); // localização do
-                                                                                                // veículo
+            IMobile vehicle = mobileFactory.createVehicle(ConnectedState.getInstance());
+            LocationData locationSensorDataVehicle = new LocationData(carLat, carLng, vehicle);
+                                                                                               
             SpeedData speedSensorDataVehicle = new SpeedData(carSpeed, vehicle);
             listData.add(locationSensorDataVehicle);
             listData.add(speedSensorDataVehicle);
@@ -189,7 +189,6 @@ public class DataServlet extends HttpServlet {
             }
             trafficMonitor.monitorTraffic(jsonResponse);
 
-            // Build JSON response
             jsonResponse.addProperty("trafficLightStatus", trafficLightStatus.toUpperCase());
             jsonResponse.addProperty("collisionRisk", trafficMonitor.getResult().isCollisionDetected());
             jsonResponse.addProperty("consoleOutput", consoleOutput.toString());
@@ -209,7 +208,6 @@ public class DataServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ServletException | IOException | SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
@@ -220,7 +218,6 @@ public class DataServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (ServletException | IOException | SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

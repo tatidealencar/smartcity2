@@ -15,7 +15,7 @@
 
 <body>
     <div class="container mt-5">
-        <h1 class="text-center mb-4">Simulador de Controle de Tráfico</h1>
+        <h1 class="text-center mb-4">Simulador de Controle de Tráfego</h1>
 
         <form id="simulation-form">
             <div class="row mb-3">
@@ -222,16 +222,12 @@
                 })
                 .then(data => {
 
-                    console.log(data);
-                    // Update traffic light status
                     document.getElementById('traffic-light-red').style.backgroundColor = data
                         .trafficLightStatus === 'RED' ? 'red' : 'grey';
                     document.getElementById('traffic-light-yellow').style.backgroundColor = data
                         .trafficLightStatus === 'YELLOW' ? 'yellow' : 'grey';
                     document.getElementById('traffic-light-green').style.backgroundColor = data
                         .trafficLightStatus === 'GREEN' ? 'green' : 'grey';
-
-                    // Update notifications
 
                     if (data.collisionRisk) {
 
@@ -298,7 +294,6 @@
                         noColisionRiskNotification();
                     }
 
-                    // Update console output
                     document.getElementById('console-output').textContent = data.consoleOutput;
 
                 });
@@ -318,7 +313,7 @@
             }
             smartphone.classList.add('alert-danger');
 
-            smartphone.textContent = userNotification.notificationType + ": " + userNotification.message;
+            smartphone.textContent = userNotification.message;
 
             if (vehicle.classList.contains('alert-info')) {
                 vehicle.classList.remove('alert-info');
@@ -328,7 +323,7 @@
             }
             vehicle.classList.add('alert-danger');
 
-            vehicle.textContent = vehicleNotification.notificationType + ": " + vehicleNotification.message;
+            vehicle.textContent = vehicleNotification.message;
         }
 
         function collisionRiskNotificationDriver(vehicleNotification) {
@@ -343,7 +338,7 @@
             }
             vehicle.classList.add('alert-danger');
 
-            vehicle.textContent = vehicleNotification.notificationType + ": " + vehicleNotification.message;
+            vehicle.textContent = vehicleNotification.message;
 
             switch (vehicleNotification.detail) {
                 case 'CR':
@@ -377,7 +372,7 @@
             }
             smartphone.classList.add('alert-danger');
 
-            smartphone.textContent = userNotification.notificationType + ": " + userNotification.message;
+            smartphone.textContent = userNotification.message;
 
             switch (userNotification.detail) {
                 case 'CR':
