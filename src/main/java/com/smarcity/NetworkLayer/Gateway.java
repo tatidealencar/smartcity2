@@ -29,7 +29,6 @@ public class Gateway {
     }
 
     public Data fetchDataFromCloud(ISensing owner, int id, StringBuilder consoleOutput) {
-        // TODO: trazer dados do banco de dados
         LocationData data = new LocationData("37.774929" ,"-122.419416", owner);
         consoleOutput.append(data);
         return data;

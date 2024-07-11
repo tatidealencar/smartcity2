@@ -13,9 +13,7 @@ public class ConnectedState implements MobileState {
 		return instance;
 	}
 
-	private ConnectedState() {
-		// Construtor privado para evitar instanciamento
-	}
+	private ConnectedState() {}
 
 	@Override
 	public void changeState(IMobile mobile) {

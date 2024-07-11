@@ -31,16 +31,16 @@ public class NetworkManager implements INetworkManager {
 	}
 
 	public void connect( ) {
-		consoleOutput.append("Camada de rede:");
-		consoleOutput.append("Connecting using ").append(network.getProtocol()).append(" with bandwidth "). append(network.getBandwidth());
+		consoleOutput.append("Camada de rede:\n");
+		consoleOutput.append("Connecting using ").append(network.getProtocol()).append(" with bandwidth "). append(network.getBandwidth()).append("\n");
 	}
 
 	public void disconnect() {
-		consoleOutput.append("Disconnecting...");
+		consoleOutput.append("Disconnecting...\n");
 	}
 
 	public String sendData(Data data, Router router) {
-		consoleOutput.append("Sending data: ").append(data);
+		consoleOutput.append("Sending data: ").append(data).append("\n");
 		try {
 			return router.routePacket(data, "Gateway");
 		} catch (Exception e) {

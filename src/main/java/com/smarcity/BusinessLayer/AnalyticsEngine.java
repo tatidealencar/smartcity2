@@ -32,7 +32,6 @@ public class AnalyticsEngine {
                 boolean isPedestrianCrossing = (smartphoneLat == trafficLightLat) && (Math.abs(vehicleLon - smartphoneLon) <= 30);
                 boolean immediateBrakingNeeded = timeToCollision < brakingTime;
 
-                // Nova lógica para detecção de necessidade de frenagem imediata
                 if (immediateBrakingNeeded && vehicleSpeed > 0) {
                     result.setCollisionDetected(true);
                     result.setDetails("CR");

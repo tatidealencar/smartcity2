@@ -14,6 +14,6 @@ public class SpeedData extends Data {
     }
 
     public String toString() {
-        return super.getSensorType() + ": " + super.getData1() + " - " + super.getData2() + " - " + super.getTimestamp();
+        return super.getSensorType() + ": " + super.getData1() + " - " + super.getData2();
     }
 }
