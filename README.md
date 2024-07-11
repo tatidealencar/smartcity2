@@ -1,4 +1,3 @@
-=====================================================================
 Configuração
 =====================================================================
 
@@ -29,7 +28,6 @@ cd /Caminho/Para/Projeto/smartcity2
 mvn clean install
 mvn tomcat7:run
 
-=====================================================================
 Uso do Simulador
 =====================================================================
 
@@ -53,7 +51,6 @@ Opção B:
 Aviso: Notificações sonoras só são emitidas para carro ou pedestre. O teste de ambos só emite notificações visuais. 
 Observação: Na versão atual as notificações visuais anteriores só desaparecem se novas notificações forem geradas para o observer.
 
-=====================================================================
 Funcionamento do sistema
 =====================================================================
 
